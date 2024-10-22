@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://cohm7pfjg6xt5"]
+
+[ext_resource type="Script" path="res://Sapato/Scripts/UpdateFPSText.cs" id="1_si2jq"]
+[ext_resource type="FontFile" uid="uid://c3w6r8gvmqsds" path="res://Sapato/Fonts/vcr.ttf" id="2_dbrh8"]
+[ext_resource type="FontFile" uid="uid://kayhetrqq3af" path="res://Sapato/Fonts/Fredoka.ttf" id="2_iwyv5"]
+[ext_resource type="Script" path="res://Sapato/Scripts/SoundControl.cs" id="3_udm42"]
+[ext_resource type="Texture2D" uid="uid://qg7irs4077md" path="res://Sapato/Images/Game/BlackSqureSound.png" id="4_hbqgl"]
+[ext_resource type="AudioStream" uid="uid://ywxvxx8qdoo8" path="res://Sapato/Sounds/volume.mp3" id="5_ra4b4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fr2l5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bq0wa"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="MASTERHUD" type="CanvasLayer"]
+layer = 5
+
+[node name="UpdaterThing" type="Node2D" parent="."]
+script = ExtResource("1_si2jq")
+
+[node name="Fps" type="RichTextLabel" parent="UpdaterThing"]
+texture_filter = 1
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 162.0
+offset_bottom = 69.0
+theme_override_fonts/normal_font = ExtResource("2_dbrh8")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+scroll_active = false
+
+[node name="BetaTest" type="RichTextLabel" parent="UpdaterThing"]
+offset_left = 28.0
+offset_top = 669.0
+offset_right = 178.0
+offset_bottom = 697.0
+theme_override_fonts/normal_font = ExtResource("2_iwyv5")
+theme_override_font_sizes/normal_font_size = 20
+text = "NOT FINISHED!"
+scroll_active = false
+
+[node name="Sound" type="Node2D" parent="."]
+position = Vector2(0, -88)
+script = ExtResource("3_udm42")
+
+[node name="BGVolume" type="Sprite2D" parent="Sound"]
+modulate = Color(1, 1, 1, 0.627451)
+position = Vector2(657, 25)
+scale = Vector2(0.686747, 0.686747)
+texture = ExtResource("4_hbqgl")
+
+[node name="BarVolume" type="ProgressBar" parent="Sound"]
+offset_left = 462.0
+offset_top = 37.0
+offset_right = 853.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("2_iwyv5")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/background = SubResource("StyleBoxEmpty_fr2l5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bq0wa")
+rounded = true
+show_percentage = false
+
+[node name="Volume" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("5_ra4b4")

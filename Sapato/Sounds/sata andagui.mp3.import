@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bcuxavjj8ph3d"
+path="res://.godot/imported/sata andagui.mp3-1f6e057e2f1e5f1f0a2720e9e6825c63.mp3str"
+
+[deps]
+
+source_file="res://Sapato/Sounds/sata andagui.mp3"
+dest_files=["res://.godot/imported/sata andagui.mp3-1f6e057e2f1e5f1f0a2720e9e6825c63.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

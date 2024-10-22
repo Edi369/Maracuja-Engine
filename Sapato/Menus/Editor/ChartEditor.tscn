@@ -1,0 +1,942 @@
+[gd_scene load_steps=26 format=3 uid="uid://bkfi6lyyrr6yf"]
+
+[ext_resource type="Script" path="res://Sapato/Scripts/Menus/Menu/Editor/ChartEditor.cs" id="1_1el1a"]
+[ext_resource type="Texture2D" uid="uid://dyepykmmvquk5" path="res://Sapato/Images/Menus/Editor/Tiles.png" id="1_2javg"]
+[ext_resource type="Texture2D" uid="uid://biafamlowomtu" path="res://Sapato/Images/Menus/MenuEditor.png" id="2_11kw7"]
+[ext_resource type="FontFile" uid="uid://c3w6r8gvmqsds" path="res://Sapato/Fonts/vcr.ttf" id="3_4i210"]
+[ext_resource type="Script" path="res://Sapato/Scripts/Menus/Menu/Editor/ChartMusicControl.cs" id="3_37ekf"]
+[ext_resource type="Theme" uid="uid://oc0aca88i712" path="res://Sapato/Godot/ChartEditor.tres" id="3_ik1t4"]
+[ext_resource type="AudioStream" uid="uid://bhyc6pijdyich" path="res://Sapato/Sounds/BpmBarSound.mp3" id="4_nq02v"]
+[ext_resource type="Texture2D" uid="uid://cev4v4d4agh66" path="res://Sapato/Images/Menus/Editor/playbar-headmaracuja.png" id="5_mcxcy"]
+[ext_resource type="AudioStream" uid="uid://bbuxna11prtuj" path="res://Sapato/Sounds/osu-hit-sound.mp3" id="5_nrvs5"]
+[ext_resource type="Texture2D" uid="uid://dssmll3pn62yt" path="res://Sapato/Images/Menus/Editor/Notes/blue0.png" id="7_2dys4"]
+[ext_resource type="Texture2D" uid="uid://o0i3phmoj2bi" path="res://Sapato/Images/Menus/Editor/Notes/purple0.png" id="8_exbl5"]
+[ext_resource type="Texture2D" uid="uid://bp43jli26si58" path="res://Sapato/Images/Menus/Editor/Notes/red0.png" id="9_hwi2j"]
+[ext_resource type="Texture2D" uid="uid://cafhu2q1wilsq" path="res://Sapato/Images/Menus/Editor/Notes/green0.png" id="10_hovo2"]
+[ext_resource type="Texture2D" uid="uid://l437pnwn843n" path="res://Sapato/Images/Menus/Editor/Notes/NormIcon.png" id="13_b1y0n"]
+[ext_resource type="Texture2D" uid="uid://b4i71ay2l2gar" path="res://Sapato/Images/Menus/Editor/ball.png" id="16_ycuge"]
+
+[sub_resource type="Image" id="Image_fb0pq"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 4
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_f1oqd"]
+image = SubResource("Image_fb0pq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7rdqq"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.439377, 0.433111, 0.2082, 1)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgiti"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.384135, 0.378456, 0.176675, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kbt0c"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.137387, 0.134797, 0.0445973, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.318259, 0.313349, 0.140382, 1)
+corner_detail = 6
+
+[sub_resource type="Theme" id="Theme_ky16x"]
+HSlider/constants/center_grabber = 0
+HSlider/constants/grabber_offset = 0
+HSlider/icons/grabber = ExtResource("5_mcxcy")
+HSlider/icons/grabber_disabled = ExtResource("5_mcxcy")
+HSlider/icons/grabber_highlight = ExtResource("5_mcxcy")
+HSlider/icons/tick = SubResource("ImageTexture_f1oqd")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_7rdqq")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_vgiti")
+HSlider/styles/slider = SubResource("StyleBoxFlat_kbt0c")
+
+[sub_resource type="Gradient" id="Gradient_swuv3"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wrcqh"]
+gradient = SubResource("Gradient_swuv3")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2j2kr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_2dys4")
+}],
+"loop": false,
+"name": &"down",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_exbl5")
+}],
+"loop": false,
+"name": &"left",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_hwi2j")
+}],
+"loop": false,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_hovo2")
+}],
+"loop": false,
+"name": &"up",
+"speed": 1.0
+}]
+
+[sub_resource type="Theme" id="Theme_gap1k"]
+default_font = ExtResource("3_4i210")
+/fonts/Font = ExtResource("3_4i210")
+/styles/Default = null
+Button/font_sizes/font_size = 20
+ColorPickerButton/colors/font_disabled_color = Color(0.9, 0.9, 0.9, 0.3)
+
+[node name="ChartEditor" type="Node2D"]
+script = ExtResource("1_1el1a")
+test2 = 364.597
+
+[node name="HUDEditor" type="CanvasLayer" parent="."]
+
+[node name="DOWNLabel" type="Control" parent="HUDEditor"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 675.0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="ColorRect" type="ColorRect" parent="HUDEditor/DOWNLabel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.239216, 0.235294, 0.0980392, 1)
+
+[node name="MusicTimeLength" type="Label" parent="HUDEditor/DOWNLabel"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -234.0
+offset_top = -11.0
+offset_right = -16.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "69:69.696"
+horizontal_alignment = 2
+
+[node name="MusicTimeNow" type="Label" parent="HUDEditor/DOWNLabel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -11.0
+offset_right = 228.0
+offset_bottom = 11.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "00:00.000"
+
+[node name="TempControl" type="HSlider" parent="HUDEditor/DOWNLabel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -1.0
+offset_top = -12.0
+offset_right = 1281.0
+offset_bottom = 4.0
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_ky16x")
+step = 0.0
+
+[node name="Infolayer" type="CanvasLayer" parent="HUDEditor/DOWNLabel"]
+layer = 2
+
+[node name="InfoBeats" type="Label" parent="HUDEditor/DOWNLabel/Infolayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -109.0
+offset_top = 326.5
+offset_right = 109.0
+offset_bottom = 348.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "lol"
+horizontal_alignment = 1
+
+[node name="MusicControl" type="Node" parent="." node_paths=PackedStringArray("Music", "Voices")]
+script = ExtResource("3_37ekf")
+Music = NodePath("Inst")
+Voices = NodePath("Voices")
+BPM = 122
+
+[node name="Hitsound" type="AudioStreamPlayer" parent="MusicControl"]
+stream = ExtResource("5_nrvs5")
+
+[node name="BpmBarSound" type="AudioStreamPlayer" parent="MusicControl"]
+stream = ExtResource("4_nq02v")
+volume_db = 15.0
+
+[node name="Inst" type="AudioStreamPlayer" parent="MusicControl"]
+
+[node name="Voices" type="AudioStreamPlayer" parent="MusicControl"]
+
+[node name="BGCOLOR" type="ColorRect" parent="."]
+offset_left = -7247.0
+offset_top = -3821.0
+offset_right = 8658.0
+offset_bottom = 4615.0
+color = Color(0.109804, 0.109804, 0.109804, 1)
+
+[node name="BGMenuEditor" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = ExtResource("2_11kw7")
+
+[node name="TilesBackGround" type="Parallax2D" parent="."]
+scale = Vector2(0.7, 0.7)
+repeat_size = Vector2(0, 256)
+repeat_times = 5
+limit_begin = Vector2(-1e+06, -1e+07)
+limit_end = Vector2(-1e+06, 1e+07)
+
+[node name="Tiles" type="Sprite2D" parent="TilesBackGround"]
+texture_filter = 1
+position = Vector2(1043.65, 563.596)
+texture = ExtResource("1_2javg")
+
+[node name="Tiles2" type="Sprite2D" parent="TilesBackGround"]
+texture_filter = 1
+position = Vector2(786.92, 563.596)
+texture = ExtResource("1_2javg")
+
+[node name="BeatBars" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(-64, -1)
+repeat_size = Vector2(0, 179.2)
+repeat_times = 5
+limit_begin = Vector2(0, 0)
+limit_end = Vector2(0, 1e+07)
+
+[node name="LineEPIC" type="Sprite2D" parent="BeatBars"]
+position = Vector2(705.027, 350.77)
+scale = Vector2(1.476, 1.91)
+texture = SubResource("GradientTexture1D_wrcqh")
+
+[node name="BarsBar" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(-64, -1)
+repeat_size = Vector2(0, 716.8)
+repeat_times = 2
+limit_begin = Vector2(0, 0)
+limit_end = Vector2(0, 1e+07)
+
+[node name="LineEPIC" type="Sprite2D" parent="BarsBar"]
+position = Vector2(705.027, 709.185)
+scale = Vector2(1.672, 1.97)
+texture = SubResource("GradientTexture1D_wrcqh")
+
+[node name="Notes" type="Node2D" parent="."]
+
+[node name="NoteDummy" type="AnimatedSprite2D" parent="Notes"]
+self_modulate = Color(1, 1, 1, 0.392157)
+position = Vector2(-63.495, -22.915)
+scale = Vector2(0.282, 0.282)
+sprite_frames = SubResource("SpriteFrames_2j2kr")
+animation = &"down"
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="HUDinGame" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -254.4
+offset_top = 410.706
+offset_right = -254.4
+offset_bottom = 410.706
+
+[node name="Line" type="Sprite2D" parent="HUDinGame"]
+position = Vector2(895.4, -41.706)
+scale = Vector2(0.00781244, 1992)
+texture = SubResource("GradientTexture1D_wrcqh")
+
+[node name="LineEPIC" type="Sprite2D" parent="HUDinGame"]
+position = Vector2(894.691, -59.221)
+rotation = 1.5708
+scale = Vector2(0.0156249, 358.925)
+texture = SubResource("GradientTexture1D_wrcqh")
+
+[node name="LabelBG1" type="ColorRect" parent="HUDinGame"]
+self_modulate = Color(1, 1, 1, 0.588235)
+layout_mode = 0
+offset_left = -1223.0
+offset_top = -411.0
+offset_right = 3010.0
+offset_bottom = -318.0
+color = Color(0.238454, 0.234728, 0.0980052, 1)
+
+[node name="LabelDAD" type="ColorRect" parent="HUDinGame"]
+self_modulate = Color(1, 1, 1, 0.588235)
+layout_mode = 0
+offset_left = 715.0
+offset_top = -411.0
+offset_right = 897.0
+offset_bottom = -318.0
+color = Color(0.174888, 0.171948, 0.0644661, 1)
+
+[node name="LabelBF" type="ColorRect" parent="HUDinGame"]
+self_modulate = Color(1, 1, 1, 0.588235)
+layout_mode = 0
+offset_left = 897.0
+offset_top = -411.0
+offset_right = 1075.0
+offset_bottom = -318.0
+color = Color(0.172549, 0.172549, 0.223529, 1)
+
+[node name="LabelBG3" type="ColorRect" parent="HUDinGame"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 894.0
+offset_top = -411.0
+offset_right = 897.0
+offset_bottom = -318.0
+color = Color(0.564338, 0.557462, 0.286765, 1)
+
+[node name="UPLabel" type="Control" parent="HUDinGame"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 254.4
+offset_top = -410.706
+offset_right = 1534.4
+offset_bottom = -290.706
+
+[node name="VelocityDefaultIndicator" type="ColorRect" parent="HUDinGame/UPLabel"]
+layout_mode = 0
+offset_left = 1156.0
+offset_top = 17.0
+offset_right = 1158.0
+offset_bottom = 37.0
+color = Color(0.548275, 0.541109, 0.275209, 1)
+
+[node name="ZoomDefaultIndicator" type="ColorRect" parent="HUDinGame/UPLabel"]
+layout_mode = 0
+offset_left = 1114.0
+offset_top = 51.0
+offset_right = 1116.0
+offset_bottom = 71.0
+color = Color(0.548275, 0.541109, 0.275209, 1)
+
+[node name="VelocitySlider" type="HSlider" parent="HUDinGame/UPLabel"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -195.0
+offset_top = -101.0
+offset_right = -8.0
+offset_bottom = -85.0
+grow_horizontal = 0
+grow_vertical = 0
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+min_value = 0.1
+max_value = 2.5
+step = 0.1
+value = 1.0
+
+[node name="Text" type="Label" parent="HUDinGame/UPLabel/VelocitySlider"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -216.0
+offset_top = -2.0
+offset_right = -5.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource("3_4i210")
+text = "PlayBack Velocity:"
+
+[node name="MusicTimeLength" type="Label" parent="HUDinGame/UPLabel/VelocitySlider"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -93.5
+offset_right = 93.5
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "1.00"
+horizontal_alignment = 1
+
+[node name="ZoomSlider" type="HSlider" parent="HUDinGame/UPLabel"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -195.0
+offset_top = -67.0
+offset_right = -8.0
+offset_bottom = -51.0
+grow_horizontal = 0
+grow_vertical = 0
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+min_value = 0.7
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="Text" type="Label" parent="HUDinGame/UPLabel/ZoomSlider"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -216.0
+offset_top = -2.0
+offset_right = -5.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource("3_4i210")
+text = "Zoom:"
+horizontal_alignment = 2
+
+[node name="MusicTimeLength" type="Label" parent="HUDinGame/UPLabel/ZoomSlider"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -93.5
+offset_right = 93.5
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "1.00"
+horizontal_alignment = 1
+
+[node name="Metronome" type="PanelContainer" parent="HUDinGame/UPLabel"]
+layout_mode = 0
+offset_left = 346.6
+offset_top = -0.294006
+offset_right = 460.6
+offset_bottom = 92.706
+theme = SubResource("Theme_gap1k")
+
+[node name="Bg" type="ColorRect" parent="HUDinGame/UPLabel/Metronome"]
+layout_mode = 2
+color = Color(0.0994668, 0.119506, 2.40654e-08, 0.470588)
+
+[node name="TabContainer" type="TabContainer" parent="HUDinGame/UPLabel/Metronome"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Metronome" type="TabBar" parent="HUDinGame/UPLabel/Metronome/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MetronomeBall" type="TextureRect" parent="HUDinGame/UPLabel/Metronome/TabContainer/Metronome"]
+texture_filter = 6
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -29.5
+offset_right = 31.5
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_ycuge")
+expand_mode = 1
+
+[node name="InfoDataAll" type="PanelContainer" parent="HUDinGame"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 1117.4
+offset_top = -317.706
+offset_right = 1534.4
+offset_bottom = 299.294
+theme = SubResource("Theme_gap1k")
+
+[node name="Bg" type="ColorRect" parent="HUDinGame/InfoDataAll"]
+layout_mode = 2
+color = Color(0.0994668, 0.119506, 2.40654e-08, 0.470588)
+
+[node name="TabContainer" type="TabContainer" parent="HUDinGame/InfoDataAll"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+current_tab = 0
+
+[node name="Note" type="TabBar" parent="HUDinGame/InfoDataAll/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="NoteType" type="Label" parent="HUDinGame/InfoDataAll/TabContainer/Note"]
+layout_mode = 1
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 321.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 23
+text = "Note Type:"
+
+[node name="OptionButton" type="OptionButton" parent="HUDinGame/InfoDataAll/TabContainer/Note/NoteType"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -19.5
+offset_right = 8.0
+offset_bottom = 19.5
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Normal"
+popup/item_0/icon = ExtResource("13_b1y0n")
+popup/item_1/text = "Sexy"
+popup/item_1/id = 1
+
+[node name="NoteComment" type="Label" parent="HUDinGame/InfoDataAll/TabContainer/Note"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -184.5
+offset_top = 408.0
+offset_right = 104.5
+offset_bottom = 429.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 23
+text = "NoteComment:"
+
+[node name="CommentBoxText" type="TextEdit" parent="HUDinGame/InfoDataAll/TabContainer/Note/NoteComment"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -142.5
+offset_top = 15.5
+offset_right = 222.5
+offset_bottom = 121.5
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "You SUPER comment here :)"
+drag_and_drop_selection_enabled = false
+wrap_mode = 1
+autowrap_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="HUDinGame/InfoDataAll/TabContainer/Note"]
+layout_mode = 1
+offset_left = 26.0
+offset_top = 64.0
+offset_right = 263.0
+offset_bottom = 93.0
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 23
+button_pressed = true
+text = "Play Animation? "
+
+[node name="StrumLine" type="Label" parent="HUDinGame/InfoDataAll/TabContainer/Note"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 370.0
+offset_right = 321.0
+offset_bottom = 391.0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 23
+text = "StrumLine:"
+
+[node name="LineEdit" type="LineEdit" parent="HUDinGame/InfoDataAll/TabContainer/Note/StrumLine"]
+layout_mode = 0
+offset_left = 136.0
+offset_top = -4.0
+offset_right = 299.0
+offset_bottom = 25.0
+tooltip_text = "Only change this if you have more than 3 strumlines in your song."
+theme_override_font_sizes/font_size = 22
+text = "Auto"
+placeholder_text = "CustomStrum Name"
+caret_blink = true
+secret_character = ""
+
+[node name="Song" type="TabBar" parent="HUDinGame/InfoDataAll/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Chart" type="TabBar" parent="HUDinGame/InfoDataAll/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="File" type="TabBar" parent="HUDinGame/InfoDataAll/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="SaveJson" type="FileDialog" parent="HUDinGame/InfoDataAll/TabContainer/File"]
+auto_translate_mode = 1
+title = "Save Chart"
+position = Vector2i(201, 97)
+size = Vector2i(888, 533)
+ok_button_text = "Save"
+dialog_autowrap = true
+access = 2
+filters = PackedStringArray("*.json")
+
+[node name="LoadJson" type="FileDialog" parent="HUDinGame/InfoDataAll/TabContainer/File"]
+title = "Open a File"
+position = Vector2i(201, 97)
+size = Vector2i(888, 533)
+ok_button_text = "Open"
+dialog_autowrap = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.json")
+
+[node name="SaveChart" type="Button" parent="HUDinGame/InfoDataAll/TabContainer/File"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -104.5
+offset_top = 59.0
+offset_right = 104.5
+offset_bottom = 115.0
+grow_horizontal = 2
+theme = ExtResource("3_ik1t4")
+theme_override_font_sizes/font_size = 20
+text = "Save Chart"
+
+[node name="LoadChart" type="Button" parent="HUDinGame/InfoDataAll/TabContainer/File"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -104.5
+offset_top = 147.0
+offset_right = 104.5
+offset_bottom = 203.0
+grow_horizontal = 2
+theme = ExtResource("3_ik1t4")
+theme_override_font_sizes/font_size = 20
+text = "Load Chart"
+
+[node name="status" type="Label" parent="HUDinGame/InfoDataAll/TabContainer/File"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.5
+offset_top = 352.0
+offset_right = -98.5
+offset_bottom = 367.0
+grow_horizontal = 2
+text = "- STATUS -"
+
+[node name="info" type="Label" parent="HUDinGame/InfoDataAll/TabContainer/File/status"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.0
+offset_top = 22.0
+offset_right = 343.0
+offset_bottom = 283.0
+grow_horizontal = 2
+text = "info here lol
+
+Last Save Time: 
+Notes: 
+Duration: 
+Bpm: 
+
+Weight: 69kb"
+autowrap_mode = 3
+
+[node name="InfoDataMusic" type="PanelContainer" parent="HUDinGame"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 254.0
+offset_top = -31.0
+offset_right = 585.0
+offset_bottom = 272.0
+theme = SubResource("Theme_gap1k")
+
+[node name="Bg" type="ColorRect" parent="HUDinGame/InfoDataMusic"]
+layout_mode = 2
+color = Color(0.0994668, 0.119506, 2.40654e-08, 0.470588)
+
+[node name="TabContainer" type="TabContainer" parent="HUDinGame/InfoDataMusic"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Audio" type="TabBar" parent="HUDinGame/InfoDataMusic/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Metronome" type="HSlider" parent="HUDinGame/InfoDataMusic/TabContainer/Audio"]
+texture_filter = 1
+layout_mode = 1
+offset_left = 12.0
+offset_top = 44.0
+offset_right = 187.0
+offset_bottom = 60.0
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+value = 30.0
+
+[node name="MetronomeVolume" type="Label" parent="HUDinGame/InfoDataMusic/TabContainer/Audio/Metronome"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = -27.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "Metronome: 30%"
+
+[node name="Instrumental" type="HSlider" parent="HUDinGame/InfoDataMusic/TabContainer/Audio"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -153.5
+offset_top = 96.0
+offset_right = 154.5
+offset_bottom = 112.0
+grow_horizontal = 2
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+value = 100.0
+
+[node name="InstrumentalVolume" type="Label" parent="HUDinGame/InfoDataMusic/TabContainer/Audio/Instrumental"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -211.0
+offset_top = -27.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "Instrumental: 100%"
+horizontal_alignment = 2
+
+[node name="Voices" type="HSlider" parent="HUDinGame/InfoDataMusic/TabContainer/Audio"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -153.5
+offset_top = 144.0
+offset_right = 154.5
+offset_bottom = 160.0
+grow_horizontal = 2
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+value = 100.0
+
+[node name="VoicesVolume" type="Label" parent="HUDinGame/InfoDataMusic/TabContainer/Audio/Voices"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -141.0
+offset_top = -27.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "Voices: 100%"
+horizontal_alignment = 2
+
+[node name="HitSounds" type="Label" parent="HUDinGame/InfoDataMusic/TabContainer/Audio"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.5
+offset_top = -110.0
+offset_right = 64.5
+offset_bottom = -88.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "- HitSounds -"
+horizontal_alignment = 1
+
+[node name="Dad" type="HSlider" parent="HUDinGame/InfoDataMusic/TabContainer/Audio"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -67.0
+offset_right = 166.0
+offset_bottom = -51.0
+grow_vertical = 0
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+value = 50.0
+
+[node name="DadHitsoundVolume" type="Label" parent="HUDinGame/InfoDataMusic/TabContainer/Audio/Dad"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -27.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "Dad: 50%"
+
+[node name="Bf" type="HSlider" parent="HUDinGame/InfoDataMusic/TabContainer/Audio"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 169.0
+offset_top = -67.0
+offset_right = 323.0
+offset_bottom = -51.0
+grow_vertical = 0
+tooltip_text = "Change The Speed of PlayBack"
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("3_ik1t4")
+value = 50.0
+
+[node name="BfHitsoundVolume" type="Label" parent="HUDinGame/InfoDataMusic/TabContainer/Audio/Bf"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -27.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_4i210")
+theme_override_font_sizes/font_size = 20
+text = "Bf: 50%"
+horizontal_alignment = 2
+
+[node name="Test" type="ColorRect" parent="."]
+visible = false
+offset_left = -824.0
+offset_top = 319.0
+offset_right = 2235.0
+offset_bottom = 475.0
+color = Color(0.109804, 0.109804, 0.109804, 1)

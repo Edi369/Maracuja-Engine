@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp6eiuvvw4x56"]
+
+[ext_resource type="Texture2D" uid="uid://6mb2or02rmyv" path="res://Sapato/Images/Stage/CoolStage/stageback.png" id="1_aawnc"]
+[ext_resource type="Texture2D" uid="uid://bmcmuf8k1lry7" path="res://Sapato/Images/Stage/CoolStage/stagefront.png" id="2_jcaxi"]
+[ext_resource type="Texture2D" uid="uid://bltktcbkfp0il" path="res://Sapato/Images/Stage/CoolStage/stage_light.png" id="3_qtdia"]
+[ext_resource type="Texture2D" uid="uid://c3cx6fog703na" path="res://Sapato/Images/Stage/CoolStage/stagecurtains.png" id="4_slvmk"]
+
+[node name="Stage" type="Node2D"]
+
+[node name="Stageback" type="Sprite2D" parent="."]
+texture = ExtResource("1_aawnc")
+
+[node name="Stagefront" type="Sprite2D" parent="."]
+position = Vector2(0, 408)
+texture = ExtResource("2_jcaxi")
+
+[node name="StageLight" type="Sprite2D" parent="."]
+position = Vector2(-631, -351)
+texture = ExtResource("3_qtdia")
+
+[node name="Stagecurtains" type="Sprite2D" parent="."]
+texture = ExtResource("4_slvmk")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://caa14023do77p"]
+
+[node name="StartupScene" type="Node2D"]
+position = Vector2(640, 360)
+
+[node name="Camera2D" type="Camera2D" parent="."]

@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dg1kbkh6ohi4x"]
+
+[ext_resource type="FontFile" uid="uid://kayhetrqq3af" path="res://Sapato/Fonts/Fredoka.ttf" id="1_1bqpj"]
+[ext_resource type="Texture2D" uid="uid://bk1lsaceydo32" path="res://Sapato/Images/Menus/LostFocus/zzz2.png" id="1_22fga"]
+[ext_resource type="Texture2D" uid="uid://ov6w56yhhtcr" path="res://Sapato/Images/Menus/LostFocus/zzz3.png" id="2_5sfjm"]
+
+[sub_resource type="Gradient" id="Gradient_3jf2i"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bn2r5"]
+gradient = SubResource("Gradient_3jf2i")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y1n1i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_22fga")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5sfjm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="LostFocus" type="CanvasLayer"]
+layer = 4
+
+[node name="BG" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(642, 360)
+scale = Vector2(5.05078, 736)
+texture = SubResource("GradientTexture1D_bn2r5")
+
+[node name="ZZZ" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(418, 502)
+sprite_frames = SubResource("SpriteFrames_y1n1i")
+frame = 1
+frame_progress = 0.761468
+
+[node name="Text" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = 579.0
+offset_top = 243.0
+offset_right = 990.0
+offset_bottom = 339.0
+theme_override_fonts/font = ExtResource("1_1bqpj")
+theme_override_font_sizes/font_size = 70
+text = "ZZzzz..."

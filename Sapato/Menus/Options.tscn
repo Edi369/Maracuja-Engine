@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4deh2vrwp1y8"]
+
+[ext_resource type="Texture2D" uid="uid://be6u4dwnv0p6l" path="res://Sapato/Images/Menus/menuDesat.png" id="1_dv8rk"]
+[ext_resource type="Script" path="res://Sapato/Scripts/Menus/Menu/Options.cs" id="1_n3t2u"]
+[ext_resource type="PackedScene" uid="uid://b27kfw5jsstb1" path="res://Sapato/Objects/Game/AlphabeticCene.tscn" id="3_v5ksj"]
+
+[node name="Options" type="Node2D"]
+
+[node name="BG" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0.411765, 1)
+position = Vector2(643, 365)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_dv8rk")
+
+[node name="OptionsinOptions" type="Node2D" parent="."]
+position = Vector2(258.591, -147.983)
+script = ExtResource("1_n3t2u")
+
+[node name="Sound" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(195.409, 349.983)
+FnfText = "gameplay"
+
+[node name="Gaprichs" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(195.409, 455.983)
+FnfText = "Gaprichs"
+
+[node name="Controls" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(195.409, 566.983)
+FnfText = "controls"
+
+[node name="Exit" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(288.409, 671.983)
+FnfText = "exit"
+
+[node name="SelectOptionText" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(133.409, 352.983)
+FnfText = ">"
