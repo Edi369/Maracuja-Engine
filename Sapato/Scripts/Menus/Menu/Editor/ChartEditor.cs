@@ -529,7 +529,7 @@ public partial class ChartEditor : Node2D
 			{
 				if (note.LongNote != null)
 				{
-					if (note.LongNote.EndTime-.3f <= note.LongNote.StartTime)
+					if (note.LongNote.EndTime-.1f <= note.LongNote.StartTime)
 					{
 						note.Note.GetChild<ColorRect>(0).QueueFree();
 						note.Note.RemoveChild(note.Note.GetChild<ColorRect>(0));
