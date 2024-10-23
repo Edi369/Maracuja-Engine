@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://l437pnwn843n" path="res://Sapato/Images/Menus/Editor/Notes/NormIcon.png" id="13_b1y0n"]
 [ext_resource type="Texture2D" uid="uid://b4i71ay2l2gar" path="res://Sapato/Images/Menus/Editor/ball.png" id="16_ycuge"]
 
-[sub_resource type="Image" id="Image_fb0pq"]
+[sub_resource type="Image" id="Image_7g380"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 64, 255, 255, 255, 64, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -26,7 +26,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_f1oqd"]
-image = SubResource("Image_fb0pq")
+image = SubResource("Image_7g380")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7rdqq"]
 content_margin_left = 4.0
@@ -122,7 +122,7 @@ ColorPickerButton/colors/font_disabled_color = Color(0.9, 0.9, 0.9, 0.3)
 
 [node name="ChartEditor" type="Node2D"]
 script = ExtResource("1_1el1a")
-test2 = 364.597
+test2 = 362.467
 
 [node name="HUDEditor" type="CanvasLayer" parent="."]
 
@@ -211,7 +211,7 @@ horizontal_alignment = 1
 script = ExtResource("3_37ekf")
 Music = NodePath("Inst")
 Voices = NodePath("Voices")
-BPM = 122
+BPM = 136
 
 [node name="Hitsound" type="AudioStreamPlayer" parent="MusicControl"]
 stream = ExtResource("5_nrvs5")
@@ -239,8 +239,14 @@ texture = ExtResource("2_11kw7")
 scale = Vector2(0.7, 0.7)
 repeat_size = Vector2(0, 256)
 repeat_times = 5
-limit_begin = Vector2(-1e+06, -1e+07)
-limit_end = Vector2(-1e+06, 1e+07)
+limit_begin = Vector2(0, 0)
+limit_end = Vector2(0, 1e+07)
+
+[node name="Tiles3" type="Sprite2D" parent="TilesBackGround"]
+texture_filter = 1
+position = Vector2(724.063, 815.025)
+scale = Vector2(-1, 1)
+texture = ExtResource("1_2javg")
 
 [node name="Tiles" type="Sprite2D" parent="TilesBackGround"]
 texture_filter = 1
@@ -258,11 +264,11 @@ scroll_offset = Vector2(-64, -1)
 repeat_size = Vector2(0, 179.2)
 repeat_times = 5
 limit_begin = Vector2(0, 0)
-limit_end = Vector2(0, 1e+07)
+limit_end = Vector2(0, 0)
 
 [node name="LineEPIC" type="Sprite2D" parent="BeatBars"]
-position = Vector2(705.027, 350.77)
-scale = Vector2(1.476, 1.91)
+position = Vector2(681.977, 350.77)
+scale = Vector2(1.65607, 1.91)
 texture = SubResource("GradientTexture1D_wrcqh")
 
 [node name="BarsBar" type="Parallax2D" parent="."]
@@ -274,23 +280,34 @@ limit_begin = Vector2(0, 0)
 limit_end = Vector2(0, 1e+07)
 
 [node name="LineEPIC" type="Sprite2D" parent="BarsBar"]
-position = Vector2(705.027, 709.185)
-scale = Vector2(1.672, 1.97)
+position = Vector2(685.021, 709.185)
+scale = Vector2(1.82829, 1.97)
 texture = SubResource("GradientTexture1D_wrcqh")
 
 [node name="Notes" type="Node2D" parent="."]
 
 [node name="NoteDummy" type="AnimatedSprite2D" parent="Notes"]
 self_modulate = Color(1, 1, 1, 0.392157)
+z_index = 2
 position = Vector2(-63.495, -22.915)
 scale = Vector2(0.282, 0.282)
 sprite_frames = SubResource("SpriteFrames_2j2kr")
 animation = &"down"
 
+[node name="NoteHold" type="ColorRect" parent="Notes/NoteDummy"]
+visible = false
+z_index = -1
+offset_left = -16.0
+offset_top = 21.0
+offset_right = 16.0
+offset_bottom = 138.0
+color = Color(0.976471, 0.223529, 0.247059, 1)
+
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(640, 360)
 
 [node name="HUDinGame" type="Control" parent="."]
+z_index = 5
 layout_mode = 3
 anchors_preset = 0
 offset_left = -254.4
@@ -300,6 +317,11 @@ offset_bottom = 410.706
 
 [node name="Line" type="Sprite2D" parent="HUDinGame"]
 position = Vector2(895.4, -41.706)
+scale = Vector2(0.00781244, 1992)
+texture = SubResource("GradientTexture1D_wrcqh")
+
+[node name="LineEvents" type="Sprite2D" parent="HUDinGame"]
+position = Vector2(714.246, -41.706)
 scale = Vector2(0.00781244, 1992)
 texture = SubResource("GradientTexture1D_wrcqh")
 

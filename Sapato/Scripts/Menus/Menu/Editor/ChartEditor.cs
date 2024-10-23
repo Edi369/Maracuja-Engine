@@ -9,7 +9,8 @@ using System.IO;
 public partial class ChartEditor : Node2D
 {
 	[Export] public float test = 2.987f;
-	[Export] public float test2 = 100f;
+	[Export] public float test2 = 363.817f;
+	[Export] public float test3 = 2160.55f;
 
 	private string SongName = "Test";
 	private string Difficulty = "hor";
@@ -59,6 +60,8 @@ public partial class ChartEditor : Node2D
 		Events();
 		LoadMusic();
 		LoadChartFromPath($"res://Sapato/Songs/{SongName}/Chart/{Difficulty}.json");
+
+		ScrollChange = 60f/GetNode<ChartMusicControl>("MusicControl").BPM;
 	}
 
 	private void LoadMusic()
@@ -85,7 +88,7 @@ public partial class ChartEditor : Node2D
 			{
 				using var file = FileAccess.Open($"res://Sapato/Songs/{SongName}/Music/Inst.mp3", FileAccess.ModeFlags.Read);
 				var mp3Data = new AudioStreamMP3();
-    			mp3Data.Data = file.GetBuffer((long)file.GetLength());
+				mp3Data.Data = file.GetBuffer((long)file.GetLength());
 				Music.Stream = mp3Data;
 			}
 
@@ -93,7 +96,7 @@ public partial class ChartEditor : Node2D
 			{
 				using var file = FileAccess.Open($"res://Sapato/Songs/{SongName}/Music/Voices.mp3", FileAccess.ModeFlags.Read);
 				var mp3Data = new AudioStreamMP3();
-    			mp3Data.Data = file.GetBuffer((long)file.GetLength());
+				mp3Data.Data = file.GetBuffer((long)file.GetLength());
 				Voices.Stream = mp3Data;
 			}
 			
@@ -114,6 +117,7 @@ public partial class ChartEditor : Node2D
 		{
 			MousePlaceNote();	
 			UpdatePosition();
+			LongNoteCreate();
 		}
 
 		UpdateText();
@@ -135,8 +139,6 @@ public partial class ChartEditor : Node2D
 		{
 			FakeYPosition = (-Music.GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*test)+test2;
 		}
-
-		ScrollChange = 60f/GetNode<ChartMusicControl>("MusicControl").BPM;
 
 		TilesBG.ScrollOffset = new Vector2(TilesBG.ScrollOffset.X, FakeYPosition);
 		BeatBars.ScrollOffset = new Vector2(BeatBars.ScrollOffset.X, FakeYPosition);
@@ -163,7 +165,14 @@ public partial class ChartEditor : Node2D
 		GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/SaveJson").FileSelected += (o) =>
 		{
 			Ocupped = false;
-			File.WriteAllText(o, JsonConvert.SerializeObject(chartinfo));
+			try
+			{
+				File.WriteAllText(o, JsonConvert.SerializeObject(chartinfo));
+			}
+			catch (Exception ex)
+			{
+				GD.PrintErr(ex);
+			}
 		};
 
 		GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/LoadJson").FileSelected += (o) =>
@@ -293,284 +302,6 @@ public partial class ChartEditor : Node2D
 
 			CallDeferred("add_child", InstanceTesting);
 			CallDeferred("SetupCharPlayMusic");	
-		}
-	}
-
-	private void MousePlaceNote()
-	{
-		SetMouseDirection();
-
-		foreach(NoteInfo noteinfo in ListNotes)
-		{
-			if (noteinfo.TimeNote <= Music.GetPlaybackPosition())
-			{
-				if (noteinfo.Note.Modulate != new Color(0.5f, 0.5f, 0.5f) && noteinfo.Note.Modulate != new Color(0.7f, 0.7f, 0.7f) && !Paused)
-				{
-					AudioStreamPlayer hitsound = new AudioStreamPlayer();
-					hitsound.Stream = GetNode<AudioStreamPlayer>("MusicControl/Hitsound").Stream;
-					hitsound.Name = (noteinfo.StrumLine == "Dad" ? "Dad" : "Boyfriend");
-
-					foreach (Node node in GetNode<AudioStreamPlayer>("MusicControl/Hitsound").GetChildren().Where(n => n.Name == hitsound.Name))
-					{
-						if (node is AudioStreamPlayer epicaudio)
-						{
-							epicaudio.Stop();
-							epicaudio.QueueFree();
-							GetNode<AudioStreamPlayer>("MusicControl/Hitsound").RemoveChild(epicaudio);
-						}
-					}
-
-					GetNode<AudioStreamPlayer>("MusicControl/Hitsound").AddChild(hitsound);
-					hitsound.VolumeDb = (float)Mathf.LinearToDb(Hitsounds[(noteinfo.StrumLine == "Dad" ? 0 : 1)]/40f);;
-					hitsound.Finished += () => {
-						hitsound.QueueFree();
-						GetNode<AudioStreamPlayer>("MusicControl/Hitsound").RemoveChild(hitsound);
-					}; 
-					hitsound.Play();
-				}
-
-				if (NotesSelected.Contains(noteinfo))
-				{
-					noteinfo.Note.Modulate = new Color(0.7f, 0.7f, 0.7f);
-				}
-				else
-				{
-					noteinfo.Note.Modulate = new Color(0.5f, 0.5f, 0.5f);
-				}
-			}
-			else
-			{
-				//if (noteinfo.Note.Modulate == new Color(1f, 1f, 1f) || noteinfo.Note.Modulate == new Color(2.5f, 2.5f, 2.5f))
-				//{
-				//	continue;
-				//}
-
-				if (NotesSelected.Contains(noteinfo))
-				{
-					noteinfo.Note.Modulate = new Color(2.5f, 2.5f, 2.5f);
-				}
-				else
-				{
-					noteinfo.Note.Modulate = new Color(1f, 1f, 1f);
-				}
-			}
-		}
-
-		if (MouseNoteDirection == -1)
-		{
-			NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Visible = false;
-			return;
-		}
-
-		NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Visible = true;
-		float NoteXPosition = 0f;
-		NoteXPosition = GetXDirection(MouseNoteDirection);
-		switch (MouseNoteDirection % 4)
-		{
-			case 0:
-				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("left");
-				break;
-			case 1:
-				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("down");
-				break;
-			case 2:
-				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("up");
-				break;
-			case 3:
-				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("right");
-				break;
-		}
-
-		if (Input.IsActionPressed("CHARTSHITF_KEY"))
-		{
-			NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Position = new Vector2(NoteXPosition, GetLocalMousePosition().Y-FakeYPosition);
-		}
-		else
-		{
-			NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Position = new Vector2(NoteXPosition, (Mathf.Floor(((GetLocalMousePosition().Y+52.8f)-FakeYPosition) / 44.8f) * 44.8f)-31.5f);
-		}
-
-		if (Input.IsActionJustPressed("MOUSE_CLICK"))
-		{
-			if (NotesSelected.Count > 0 && NotesAboveMouse().Count > 0)
-			{
-				int _index = 0;
-				foreach (NoteInfo note in NotesAboveMouse().OrderBy(n => -n.NoteId))
-				{
-					if (_index > 0)
-					{
-						return;
-					}
-
-					if (!NotesSelected.Contains(note))
-					{
-						PlaceNote();
-					}
-					else
-					{
-						NotesSelected.Clear();
-						NotesSelected.Add(note);
-					}
-					_index++;
-				}
-			}
-			else
-			{
-				PlaceNote();
-			}
-		}
-
-		if (Input.IsActionPressed("MOUSE_CLICK2"))
-		{
-			foreach (NoteInfo noteDelete in NotesAboveMouse())
-			{
-				ListNotes.Remove(noteDelete);
-				if (NotesSelected.Contains(noteDelete))
-				{
-					NotesSelected.Remove(noteDelete);
-				}
-				Tween _tween1 = CreateTween();
-				Tween _tween2 = CreateTween();
-				_tween2.TweenProperty(noteDelete.Note, "modulate", new Color(1f, 0f, 0f, 0f), 1f).SetTrans(Tween.TransitionType.Quint).SetEase(Tween.EaseType.Out);
-				_tween1.TweenProperty(noteDelete.Note, "scale", Vector2.Zero, 3f).SetTrans(Tween.TransitionType.Quint).SetEase(Tween.EaseType.Out);
-				_tween1.TweenCallback(Callable.From(() => {
-					NotesNode.RemoveChild(noteDelete.Note);
-					noteDelete.Note.QueueFree();
-				}));
-			}
-		}
-	}
-
-	public List<NoteInfo> NotesAboveMouse()
-	{
-		List<NoteInfo> notesabove = new List<NoteInfo>();
-		foreach (NoteInfo noteAbove in ListNotes.ToList())
-		{
-			SetMouseDirection();
-			if(noteAbove.StrumLine == GetStrumOnMouse() && MouseNoteDirection % 4 == noteAbove.Direction && noteAbove.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) <= 15f && noteAbove.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) >= -15f)
-			{
-				notesabove.Add(noteAbove);
-			}
-		}
-
-		return notesabove;
-	}
-
-	public string GetStrumOnMouse()
-	{
-		if (GetLocalMousePosition().X > 461 && GetLocalMousePosition().X < 640)
-		{
-			return "Dad";
-		}
-
-		else if (GetLocalMousePosition().X > 642 && GetLocalMousePosition().X < 820)
-		{
-			return "Boyfriend";
-		}
-
-		return "none";
-	}
-
-	public void PlaceNote()
-	{
-		AnimatedSprite2D note = new AnimatedSprite2D();
-		note.SpriteFrames = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").SpriteFrames;
-		note.Scale = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Scale;
-		
-		switch (MouseNoteDirection % 4)
-		{
-			case 0:
-				note.Play("left");
-				break;
-			case 1:
-				note.Play("down");
-				break;
-			case 2:
-				note.Play("up");
-				break;
-			case 3:
-				note.Play("right");
-				break;
-		}
-
-		note.Position = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Position;
-		/* foreach (var child in NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").GetChildren())
-		{
-			var newChild = child.;
-			note.AddChild(child);
-		} */
-
-		int noteIndex = 0;
-		foreach (NoteInfo indexNote in ListNotes)
-		{
-			noteIndex++;
-		}
-
-		NoteInfo info = new NoteInfo
-		{
-			TimeNote = GetMusicPosition(note.Position.Y),
-			Position = note.Position,
-			Note = note,
-			StrumLine = MouseNoteDirection > 3 ? "Boyfriend" : "Dad",
-			NoteType = 0,
-			IsPlayAnimation = true,
-			Direction = MouseNoteDirection % 4,
-			NoteId = noteIndex,
-			IsLongNote = false
-		};
-		ListNotes.Add(info);
-		NotesSelected.Clear();
-		NotesSelected.Add(info);
-
-		NotesNode.AddChild(note);
-	}
-
-	public void SetMouseDirection()
-	{
-		if (GetLocalMousePosition().X < 461 || GetLocalMousePosition().X > 820)
-		{
-			MouseNoteDirection = -1;
-			return;
-		}
-
-		else if (GetLocalMousePosition().X > 461 && GetLocalMousePosition().X < 505)
-		{
-			MouseNoteDirection = 0;
-		}
-
-		else if (GetLocalMousePosition().X > 505 && GetLocalMousePosition().X < 550)
-		{
-			MouseNoteDirection = 1;
-		}
-
-		else if (GetLocalMousePosition().X > 550 && GetLocalMousePosition().X < 595)
-		{
-			MouseNoteDirection = 2;
-		}
-
-		else if (GetLocalMousePosition().X > 595 && GetLocalMousePosition().X < 640)
-		{
-			MouseNoteDirection = 3;
-		}
-
-		else if (GetLocalMousePosition().X > 642 && GetLocalMousePosition().X < 685)
-		{
-			MouseNoteDirection = 4;
-		}
-
-		else if (GetLocalMousePosition().X > 685 && GetLocalMousePosition().X < 730)
-		{
-			MouseNoteDirection = 5;
-		}
-
-		else if (GetLocalMousePosition().X > 730 && GetLocalMousePosition().X < 775)
-		{
-			MouseNoteDirection = 6;
-		}
-
-		else if (GetLocalMousePosition().X > 775 && GetLocalMousePosition().X < 830)
-		{
-			MouseNoteDirection = 7;
 		}
 	}
 	
@@ -756,6 +487,136 @@ public partial class ChartEditor : Node2D
 		return positionY/(GetNode<ChartMusicControl>("MusicControl").BPM*test);
 	}
 
+	/// =++++++++++++++++++=
+	///   LongNotes Logic
+	/// =++++++++++++++++++=
+
+	private void LongNoteCreate()
+	{
+		ColorRect LongNoteDummy = GetNode<ColorRect>("Notes/NoteDummy/NoteHold");
+
+		if(Input.IsActionJustPressed("CHARTLONGUP_KEY"))
+		{
+			foreach (NoteInfo note in NotesSelected)
+			{
+				if (note.LongNote == null)
+				{
+					note.LongNote = new LongNoteInfo()
+					{
+						StartTime = note.TimeNote,
+						EndTime = note.TimeNote+10f/GetNode<ChartMusicControl>("MusicControl").BPM
+					};
+
+					ColorRect longnote = new ColorRect();
+					longnote.Size = new Vector2(LongNoteDummy.Size.X, ((note.LongNote.EndTime-note.LongNote.StartTime)*test3)+19.12f);
+					longnote.Color = GetColorFromDirection(note.Direction);
+					longnote.Position = new Vector2(-12.795f, 61.905f);
+					longnote.ZIndex = -1;
+
+					note.Note.AddChild(longnote);
+				}
+				else
+				{
+					note.LongNote.EndTime += 10f/GetNode<ChartMusicControl>("MusicControl").BPM;
+					UpdateLongNote();
+				}
+			}
+		}
+
+		if(Input.IsActionJustPressed("CHARTLONGDOWN_KEY"))
+		{
+			foreach (NoteInfo note in NotesSelected)
+			{
+				if (note.LongNote != null)
+				{
+					if (note.LongNote.EndTime-.3f <= note.LongNote.StartTime)
+					{
+						note.Note.GetChild<ColorRect>(0).QueueFree();
+						note.Note.RemoveChild(note.Note.GetChild<ColorRect>(0));
+						note.LongNote = null;
+						continue;
+					}
+
+					note.LongNote.EndTime -= 10f/GetNode<ChartMusicControl>("MusicControl").BPM;
+					UpdateLongNote();
+				}
+			}
+		}
+	}
+
+	public Color GetColorFromDirection(int direction)
+	{
+		switch (direction)
+		{
+			case 0: return new Color(0.761f, 0.294f, 0.6f);
+			case 1: return new Color(0, 1, 1);
+			case 2: return new Color(0.063f, 0.984f, 0);
+			case 3: return new Color(0.976f, 0.224f, 0.247f);
+			default: return new Color(0f, 0f, 0f);
+		}
+	}
+
+	public void UpdateLongNote()
+	{
+		foreach(NoteInfo note in ListNotes.Where(n => n.LongNote != null))
+		{
+			note.Note.GetChild<ColorRect>(0).Size = new Vector2(note.Note.GetChild<ColorRect>(0).Size.X, ((note.LongNote.EndTime-note.LongNote.StartTime)*test3)+19.12f);
+		}
+	}
+
+	/// =++++++++++++++++++=
+	/// 	Notes Logic
+	/// =++++++++++++++++++=
+
+	public void SetMouseDirection()
+	{
+		if (GetLocalMousePosition().X < 461 || GetLocalMousePosition().X > 820)
+		{
+			MouseNoteDirection = -1;
+			return;
+		}
+
+		else if (GetLocalMousePosition().X > 461 && GetLocalMousePosition().X < 505)
+		{
+			MouseNoteDirection = 0;
+		}
+
+		else if (GetLocalMousePosition().X > 505 && GetLocalMousePosition().X < 550)
+		{
+			MouseNoteDirection = 1;
+		}
+
+		else if (GetLocalMousePosition().X > 550 && GetLocalMousePosition().X < 595)
+		{
+			MouseNoteDirection = 2;
+		}
+
+		else if (GetLocalMousePosition().X > 595 && GetLocalMousePosition().X < 640)
+		{
+			MouseNoteDirection = 3;
+		}
+
+		else if (GetLocalMousePosition().X > 642 && GetLocalMousePosition().X < 685)
+		{
+			MouseNoteDirection = 4;
+		}
+
+		else if (GetLocalMousePosition().X > 685 && GetLocalMousePosition().X < 730)
+		{
+			MouseNoteDirection = 5;
+		}
+
+		else if (GetLocalMousePosition().X > 730 && GetLocalMousePosition().X < 775)
+		{
+			MouseNoteDirection = 6;
+		}
+
+		else if (GetLocalMousePosition().X > 775 && GetLocalMousePosition().X < 830)
+		{
+			MouseNoteDirection = 7;
+		}
+	}
+
 	private float GetXDirection(int direction)
 	{
 		switch (direction)
@@ -789,66 +650,297 @@ public partial class ChartEditor : Node2D
 		}
 	}
 
-	private void LoadChartFromPath(string o)
+	public void PlaceNote()
 	{
-		try
-			{
-				using var file = FileAccess.Open(o, FileAccess.ModeFlags.Read);
-				chartinfo = JsonConvert.DeserializeObject<ChartInfo>(file.GetAsText());
+		AnimatedSprite2D note = new AnimatedSprite2D();
+		note.SpriteFrames = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").SpriteFrames;
+		note.Scale = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Scale;
+		note.ZIndex = 2;
+		
+		switch (MouseNoteDirection % 4)
+		{
+			case 0:
+				note.Play("left");
+				break;
+			case 1:
+				note.Play("down");
+				break;
+			case 2:
+				note.Play("up");
+				break;
+			case 3:
+				note.Play("right");
+				break;
+		}
 
-				ListNotes.Clear();
-				foreach (Node node in GetNode<Node2D>("Notes").GetChildren())
+		note.Position = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Position;
+
+		int noteIndex = 0;
+		foreach (NoteInfo indexNote in ListNotes)
+		{
+			noteIndex++;
+		}
+
+		NoteInfo info = new NoteInfo
+		{
+			TimeNote = GetMusicPosition(note.Position.Y),
+			Position = note.Position,
+			Note = note,
+			StrumLine = MouseNoteDirection > 3 ? "Boyfriend" : "Dad",
+			NoteType = 0,
+			IsPlayAnimation = true,
+			Direction = MouseNoteDirection % 4,
+			NoteId = noteIndex,
+			LongNote = null
+		};
+		ListNotes.Add(info);
+		NotesSelected.Clear();
+		NotesSelected.Add(info);
+
+		NotesNode.AddChild(note);
+	}
+
+	public string GetStrumOnMouse()
+	{
+		if (GetLocalMousePosition().X > 461 && GetLocalMousePosition().X < 640)
+		{
+			return "Dad";
+		}
+
+		else if (GetLocalMousePosition().X > 642 && GetLocalMousePosition().X < 820)
+		{
+			return "Boyfriend";
+		}
+
+		return "none";
+	}
+
+	private void MousePlaceNote()
+	{
+		SetMouseDirection();
+
+		foreach(NoteInfo noteinfo in ListNotes)
+		{
+			if (noteinfo.TimeNote <= Music.GetPlaybackPosition())
+			{
+				if (noteinfo.Note.Modulate != new Color(0.5f, 0.5f, 0.5f) && noteinfo.Note.Modulate != new Color(0.7f, 0.7f, 0.7f) && !Paused)
 				{
-					if (node.Name == "NoteDummy")
+					AudioStreamPlayer hitsound = new AudioStreamPlayer();
+					hitsound.Stream = GetNode<AudioStreamPlayer>("MusicControl/Hitsound").Stream;
+					hitsound.Name = (noteinfo.StrumLine == "Dad" ? "Dad" : "Boyfriend");
+
+					foreach (Node node in GetNode<AudioStreamPlayer>("MusicControl/Hitsound").GetChildren().Where(n => n.Name == hitsound.Name))
+					{
+						if (node is AudioStreamPlayer epicaudio)
+						{
+							epicaudio.Stop();
+							epicaudio.QueueFree();
+							GetNode<AudioStreamPlayer>("MusicControl/Hitsound").RemoveChild(epicaudio);
+						}
+					}
+
+					GetNode<AudioStreamPlayer>("MusicControl/Hitsound").AddChild(hitsound);
+					hitsound.VolumeDb = (float)Mathf.LinearToDb(Hitsounds[(noteinfo.StrumLine == "Dad" ? 0 : 1)]/40f);;
+					hitsound.Finished += () => {
+						hitsound.QueueFree();
+						GetNode<AudioStreamPlayer>("MusicControl/Hitsound").RemoveChild(hitsound);
+					}; 
+					hitsound.Play();
+				}
+
+				if (NotesSelected.Contains(noteinfo))
+				{
+					noteinfo.Note.Modulate = new Color(0.7f, 0.7f, 0.7f);
+				}
+				else
+				{
+					noteinfo.Note.Modulate = new Color(0.5f, 0.5f, 0.5f);
+				}
+			}
+			else
+			{
+				if (NotesSelected.Contains(noteinfo))
+				{
+					noteinfo.Note.Modulate = new Color(2.5f, 2.5f, 2.5f);
+				}
+				else
+				{
+					noteinfo.Note.Modulate = new Color(1f, 1f, 1f);
+				}
+			}
+		}
+
+		if (MouseNoteDirection == -1)
+		{
+			NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Visible = false;
+			return;
+		}
+
+		NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Visible = true;
+		float NoteXPosition = 0f;
+		NoteXPosition = GetXDirection(MouseNoteDirection);
+		switch (MouseNoteDirection % 4)
+		{
+			case 0:
+				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("left");
+				break;
+			case 1:
+				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("down");
+				break;
+			case 2:
+				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("up");
+				break;
+			case 3:
+				NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Play("right");
+				break;
+		}
+
+		if (Input.IsActionPressed("CHARTSHIFT_KEY"))
+		{
+			NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Position = new Vector2(NoteXPosition, GetLocalMousePosition().Y-FakeYPosition);
+		}
+		else
+		{
+			NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Position = new Vector2(NoteXPosition, (Mathf.Floor(((GetLocalMousePosition().Y+52.8f)-FakeYPosition) / 44.8f) * 44.8f)-31.5f);
+		}
+
+		if (Input.IsActionJustPressed("MOUSE_CLICK"))
+		{
+			if (NotesAboveMouse().Count > 0 && !Input.IsActionPressed("CHARTSHIFT_KEY"))
+			{
+				int _index = 0;
+				foreach (NoteInfo note in NotesAboveMouse().OrderBy(n => -n.NoteId))
+				{
+					_index++;
+					if (_index > 1)
 					{
 						continue;
 					}
-					node.QueueFree();
-					GetNode<Node2D>("Notes").RemoveChild(node);
-				}
 
-
-
-				ListNotes = chartinfo.notes;
-
-				foreach (NoteInfo noteinfo in ListNotes)
-				{
-					AnimatedSprite2D note = new AnimatedSprite2D();
-					note.SpriteFrames = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").SpriteFrames;
-					note.Scale = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Scale;
-
-					switch (noteinfo.Direction % 4)
-					{
-						case 0:
-							note.Play("left");
-							break;
-						case 1:
-							note.Play("down");
-							break;
-						case 2:
-							note.Play("up");
-							break;
-						case 3:
-							note.Play("right");
-							break;
-					}
-
-					note.Position = noteinfo.Position = new Vector2(GetXDirection(noteinfo.Direction+(noteinfo.StrumLine == "Boyfriend" ? 4 : 0)), noteinfo.TimeNote*(GetNode<ChartMusicControl>("MusicControl").BPM*test));
-
-					noteinfo.Note = note;
-					NotesNode.AddChild(note);
+					NotesSelected.Clear();
+					NotesSelected.Add(note);
 				}
 			}
-			catch (Exception ex)
+			else
 			{
-				GD.PrintErr(ex);
+				PlaceNote();
 			}
+		}
+
+		if (Input.IsActionPressed("MOUSE_CLICK2"))
+		{
+			foreach (NoteInfo noteDelete in NotesAboveMouse())
+			{
+				ListNotes.Remove(noteDelete);
+				if (NotesSelected.Contains(noteDelete))
+				{
+					NotesSelected.Remove(noteDelete);
+				}
+				Tween _tween1 = CreateTween();
+				Tween _tween2 = CreateTween();
+				_tween2.TweenProperty(noteDelete.Note, "modulate", new Color(1f, 0f, 0f, 0f), 1f).SetTrans(Tween.TransitionType.Quint).SetEase(Tween.EaseType.Out);
+				_tween1.TweenProperty(noteDelete.Note, "scale", Vector2.Zero, 3f).SetTrans(Tween.TransitionType.Quint).SetEase(Tween.EaseType.Out);
+				_tween1.TweenCallback(Callable.From(() => {
+					NotesNode.RemoveChild(noteDelete.Note);
+					noteDelete.Note.QueueFree();
+				}));
+			}
+		}
 	}
+
+	public List<NoteInfo> NotesAboveMouse()
+	{
+		List<NoteInfo> notesabove = new List<NoteInfo>();
+		foreach (NoteInfo noteAbove in ListNotes.ToList())
+		{
+			SetMouseDirection();
+			if(noteAbove.StrumLine == GetStrumOnMouse() && MouseNoteDirection % 4 == noteAbove.Direction && noteAbove.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) <= 15f && noteAbove.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) >= -15f)
+			{
+				notesabove.Add(noteAbove);
+			}
+		}
+
+		return notesabove;
+	}
+
+	/// =++++++++++++++++++=
+	/// 	Chart File Logic
+	/// =++++++++++++++++++=
 
 	private void LoadChart()
 	{
 		GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/LoadJson").Visible = true;
-		//GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/LoadJson").CurrentDir = Path.Combine(Path.Combine(Path.Combine(OS.GetExecutablePath(), "/Sapato"), "/Songs"), $"/{Name}");
+	}
+
+	private void LoadChartFromPath(string o)
+	{
+		try
+		{
+			using var file = FileAccess.Open(o, FileAccess.ModeFlags.Read);
+			chartinfo = JsonConvert.DeserializeObject<ChartInfo>(file.GetAsText());
+
+			ColorRect LongNoteDummy = GetNode<ColorRect>("Notes/NoteDummy/NoteHold");
+			ListNotes.Clear();
+			foreach (Node node in GetNode<Node2D>("Notes").GetChildren())
+			{
+				if (node.Name == "NoteDummy")
+				{
+					continue;
+				}
+				node.QueueFree();
+				GetNode<Node2D>("Notes").RemoveChild(node);
+			}
+
+			ListNotes = chartinfo.notes.ToList();
+
+			int _notesIndex = 0;
+			foreach (NoteInfo noteinfo in ListNotes)
+			{
+				_notesIndex++;
+				AnimatedSprite2D note = new AnimatedSprite2D();
+				note.SpriteFrames = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").SpriteFrames;
+				note.Scale = NotesNode.GetNode<AnimatedSprite2D>("NoteDummy").Scale;
+				note.ZIndex = 2;
+
+				switch (noteinfo.Direction % 4)
+				{
+					case 0:
+						note.Play("left");
+						break;
+					case 1:
+						note.Play("down");
+						break;
+					case 2:
+						note.Play("up");
+						break;
+					case 3:
+						note.Play("right");
+						break;
+				}
+
+				note.Position = noteinfo.Position = new Vector2(GetXDirection(noteinfo.Direction+(noteinfo.StrumLine == "Boyfriend" ? 4 : 0)), noteinfo.TimeNote*(GetNode<ChartMusicControl>("MusicControl").BPM*test));
+
+				noteinfo.Note = note;
+				noteinfo.NoteId = _notesIndex;
+
+				if (noteinfo.LongNote != null)
+				{
+					ColorRect longnote = new ColorRect();
+					longnote.Size = new Vector2(LongNoteDummy.Size.X, ((noteinfo.LongNote.EndTime-noteinfo.LongNote.StartTime)*test3)+19.12f);
+					longnote.Color = GetColorFromDirection(noteinfo.Direction);
+					longnote.Position = new Vector2(-12.795f, 61.905f);
+					longnote.ZIndex = -1;
+
+					note.AddChild(longnote);
+				}
+
+				NotesNode.AddChild(note);
+			}
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr(ex);
+		}
 	}
 
 	private void SaveChart()
@@ -856,12 +948,11 @@ public partial class ChartEditor : Node2D
 		chartinfo = new ChartInfo()
 		{
 			dif = Difficulty,
-			notes = ListNotes,
+			notes = ListNotes.ToArray(),
 			even = "",
 			InitialTime = DateTime.Now,
 		};
 
 		GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/SaveJson").Visible = true;
-		//GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/SaveJson").CurrentDir = Path.Combine(Path.Combine(Path.Combine(OS.GetExecutablePath(), "/Sapato"), "/Songs"), $"/{Name}");
 	}
 }

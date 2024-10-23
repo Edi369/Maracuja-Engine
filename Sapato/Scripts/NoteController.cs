@@ -88,7 +88,7 @@ public partial class NoteController : Node
 				IsPlayAnimation = noteinfo.IsPlayAnimation,
 				StrumLine = noteinfo.StrumLine,
 				Direction = noteinfo.Direction,
-				IsLongNote = noteinfo.IsLongNote
+				LongNote = noteinfo.LongNote
 			});
 			
 			foreach (Node node in GlobalVariables.StrumLines[noteinfo.StrumLine].STRUM.GetChildren())

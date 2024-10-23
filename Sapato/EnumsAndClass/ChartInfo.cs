@@ -9,5 +9,5 @@ public class ChartInfo
 	public DateTime InitialTime { get; set; }
 	public int scrollspeed { get; set; }
 	public float ChartMaracujaVersion { get; set; } = 1f;
-	public List<NoteInfo> notes = new List<NoteInfo>();
+	public NoteInfo[] notes = new NoteInfo[]{};
 }

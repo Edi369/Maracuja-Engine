@@ -12,28 +12,9 @@ public class NoteInfo
 	public string Comment = "";
 	public int Direction = 0;
 	public string StrumLine = "Dad";
-	public bool IsLongNote = false;
+	public LongNoteInfo LongNote = null;
 	public int NoteType = 0;
 	public bool IsPlayAnimation = true;
+	[JsonIgnore]
 	public int NoteId = 0;
-
-	//public NoteInfo(
-	//	AnimatedSprite2D note = null,
-	//	Vector2 position = new Vector2(),
-	//	float timeNote = 0f, string comment = "",
-	//	int direction = 0, string strumLine = "Dad",
-	//	bool isLongNote = false,
-	//	string noteType = "Normal",
-	//	bool isPlayAnimation = true)
-	//{
-	//	Note = note;
-	//	Position = position;
-	//	TimeNote = timeNote;
-	//	Comment = comment;
-	//	Direction = direction;
-	//	StrumLine = strumLine;
-	//	IsLongNote = isLongNote;
-	//	NoteType = noteType;
-	//	IsPlayAnimation = isPlayAnimation;
-	//}
 }
