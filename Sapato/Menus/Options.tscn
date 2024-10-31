@@ -12,26 +12,31 @@ position = Vector2(643, 365)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_dv8rk")
 
-[node name="OptionsinOptions" type="Node2D" parent="."]
-position = Vector2(258.591, -147.983)
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 119.0
+color = Color(0, 0, 0, 0.588235)
+
+[node name="ConfigParallax" type="Parallax2D" parent="."]
+repeat_size = Vector2(1373.18, 0)
+repeat_times = 2
+
+[node name="OptionsinOptions" type="Node2D" parent="ConfigParallax"]
+position = Vector2(718.636, -290.243)
 script = ExtResource("1_n3t2u")
 
-[node name="Sound" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
-position = Vector2(195.409, 349.983)
-FnfText = "gameplay"
-
-[node name="Gaprichs" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
-position = Vector2(195.409, 455.983)
-FnfText = "Gaprichs"
-
-[node name="Controls" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
-position = Vector2(195.409, 566.983)
+[node name="Controls" parent="ConfigParallax/OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(1135.46, 349.983)
 FnfText = "controls"
 
-[node name="Exit" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
-position = Vector2(288.409, 671.983)
-FnfText = "exit"
+[node name="Graphics" parent="ConfigParallax/OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(673.404, 349.983)
+FnfText = "Graphics"
 
-[node name="SelectOptionText" parent="OptionsinOptions" instance=ExtResource("3_v5ksj")]
-position = Vector2(133.409, 352.983)
-FnfText = ">"
+[node name="Gameplay" parent="ConfigParallax/OptionsinOptions" instance=ExtResource("3_v5ksj")]
+position = Vector2(217.834, 349.983)
+FnfText = "gameplay"
+
+[node name="Gameplay" parent="." instance=ExtResource("3_v5ksj")]
+position = Vector2(172, 376)
+FnfText = "there are no options\\n      for now"

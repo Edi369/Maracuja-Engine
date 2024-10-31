@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 
 public partial class NoteController : Node
 {
+	private float SongPositionY = 0f;
 	public List<NoteInfo> ListNotes = new List<NoteInfo>();
 	public Dictionary<int, NoteInfo> ActualNote = new Dictionary<int, NoteInfo>();
+	public Dictionary<int, LongInfo> ActualLongs = new Dictionary<int, LongInfo>();
 	private AnimatedSprite2D NoteDummy;
+	private PackedScene LongNoteDummy;
+	private AnimatedSprite2D LongNoteEndDummy;
 	private ChartMusicControl MusicControl;
 	public int NotePlayerIndex = 0;
 	public double ScrollSpeed = 1;
@@ -19,6 +23,7 @@ public partial class NoteController : Node
 
 		NoteDummy = GetNode<AnimatedSprite2D>("NoteDummy");
 		MusicControl = GetNode<ChartMusicControl>("MusicControl");
+		LongNoteDummy = (PackedScene)ResourceLoader.Load("res://Sapato/Objects/Game/LongNote.tscn");
 
 		foreach (Node strum in GetParent().GetChildren())
 		{
@@ -58,21 +63,29 @@ public partial class NoteController : Node
 			}
 
 			AnimatedSprite2D note = new AnimatedSprite2D();
+			ColorRect LongNoteDummyInstace = LongNoteDummy.Instantiate<ColorRect>();
+			
+			note.Name = $"note{noteIndex}";
+			LongNoteDummyInstace.Name = $"longnote{noteIndex}";
 			note.SpriteFrames = NoteDummy.SpriteFrames;
 
 			switch (noteinfo.Direction)
 			{
 				default:
-				    note.Play("left");
+					note.Play("left");
+					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"left hold piece");
 					break;
 				case 1:
-				    note.Play("down");
+					note.Play("down");
+					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"down hold piece");
 					break;
 				case 2:
-				    note.Play("up");
+					note.Play("up");
+					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"up hold piece");
 					break;
 				case 3:
-				    note.Play("right");
+					note.Play("right");
+					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"right hold piece");
 					break;
 			}
 
@@ -80,6 +93,21 @@ public partial class NoteController : Node
 			//info.Note = note;
 			//ActualNote.Add(noteIndex, info);
 			note.Visible = false;
+			LongNoteDummyInstace.Visible = false;
+
+			if (noteinfo.LongNoteLenght != null)
+			{
+				ActualLongs.Add(noteIndex, new LongInfo
+				{
+					LongInstance = LongNoteDummyInstace,
+					Direction = noteinfo.Direction,
+					StrumLine = noteinfo.StrumLine,
+					//LongEndSprite = null,
+					LongNoteStarted = noteinfo.TimeNote,
+					LongNoteEnd = (float)noteinfo.LongNoteLenght
+				});
+			}
+
 			ActualNote.Add(noteIndex, new NoteInfo
 			{
 				TimeNote = noteinfo.TimeNote,
@@ -88,7 +116,7 @@ public partial class NoteController : Node
 				IsPlayAnimation = noteinfo.IsPlayAnimation,
 				StrumLine = noteinfo.StrumLine,
 				Direction = noteinfo.Direction,
-				LongNote = noteinfo.LongNote
+				LongNoteLenght = noteinfo.LongNoteLenght
 			});
 			
 			foreach (Node node in GlobalVariables.StrumLines[noteinfo.StrumLine].STRUM.GetChildren())
@@ -96,6 +124,11 @@ public partial class NoteController : Node
 				if (node.Name != "Notes")
 				{
 					continue;
+				}
+
+				if (ActualNote[noteIndex].LongNoteLenght != null)
+				{
+					node.AddChild(LongNoteDummyInstace);
 				}
 
 				node.AddChild(note);
@@ -130,9 +163,9 @@ public partial class NoteController : Node
 		return strumSprite;
 	}
 
-    public override void _Process(double delta)
-    {
-        foreach(KeyValuePair<int, NoteInfo> note in ActualNote.Where(n => n.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < .6f))
+	public override void _Process(double delta)
+	{
+		foreach(KeyValuePair<int, NoteInfo> note in ActualNote.Where(n => n.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < .6f))
 		{
 			if (GetStrumNote(note.Value.StrumLine, note.Value.Direction, out AnimatedSprite2D strumSprite) != null)
 			{
@@ -140,9 +173,21 @@ public partial class NoteController : Node
 				note.Value.Note.Position = new Vector2(strumSprite.Position.X, (note.Value.TimeNote-MusicControl.GetChild<AudioStreamPlayer>(0).GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
 			}
 		}
-    }
+		
+		foreach(KeyValuePair<int, LongInfo> longnote in ActualLongs.Where(n => n.Value.LongNoteStarted - MusicControl.Music.GetPlaybackPosition() < .6f))
+		{
+			if (GetStrumNote(longnote.Value.StrumLine, longnote.Value.Direction, out AnimatedSprite2D strumSprite) != null)
+			{
+				longnote.Value.LongInstance.Visible = true;
+				longnote.Value.LongInstance.Size = new Vector2(longnote.Value.LongInstance.Size.X, ((longnote.Value.LongNoteEnd-longnote.Value.LongNoteStarted)*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(17.7*ScrollSpeed)))+150f);
+				longnote.Value.LongInstance.GetChild<Parallax2D>(0).RepeatTimes = 100;
+				longnote.Value.LongInstance.Position = new Vector2(strumSprite.Position.X-24, (longnote.Value.LongNoteStarted-MusicControl.GetChild<AudioStreamPlayer>(0).GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
+				//longnote.Value.LongEndSprite.Position = new Vector2(24.5f, longnote.Value.LongNoteEnd*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
+			}
+		}
+	}
 
-    public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		foreach (KeyValuePair<string, Strum> strum in GlobalVariables.StrumLines)
 		{

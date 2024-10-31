@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://csijea0xwysoq"]
+[gd_scene load_steps=43 format=3 uid="uid://csijea0xwysoq"]
 
 [ext_resource type="Texture2D" uid="uid://be6u4dwnv0p6l" path="res://Sapato/Images/Menus/menuDesat.png" id="1_kuhrl"]
 [ext_resource type="Script" path="res://Sapato/Scripts/Menus/Menu/MenuSelector.cs" id="2_7emjw"]
@@ -38,6 +38,7 @@
 [ext_resource type="Texture2D" uid="uid://24kx51fxlwbd" path="res://Sapato/Images/Menus/Options/Options/options white0.png" id="35_bhmbg"]
 [ext_resource type="Texture2D" uid="uid://bulefuv7l0cfu" path="res://Sapato/Images/Menus/Options/Options/options white1.png" id="36_0pwbi"]
 [ext_resource type="Texture2D" uid="uid://c3tj24dvuy570" path="res://Sapato/Images/Menus/Options/Options/options white2.png" id="37_7k6yr"]
+[ext_resource type="PackedScene" uid="uid://cexjq5rbxnvqv" path="res://Sapato/Objects/editorsSelection.tscn" id="39_shgcc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j62c6"]
 animations = [{
@@ -189,7 +190,7 @@ animations = [{
 [node name="Menu" type="Node2D"]
 
 [node name="BG" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 0.411765, 1)
+modulate = Color(1, 0.867188, 0, 1)
 position = Vector2(643, 365)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_kuhrl")
@@ -212,3 +213,9 @@ animation = &"idle"
 position = Vector2(882.472, 281.522)
 sprite_frames = SubResource("SpriteFrames_pbg8n")
 animation = &"idle"
+
+[node name="EditorsSelection" parent="." instance=ExtResource("39_shgcc")]
+visible = false
+offset_top = -1.0
+offset_right = 1282.0
+offset_bottom = 722.0

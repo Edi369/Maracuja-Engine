@@ -1,6 +1,25 @@
-[gd_scene format=3 uid="uid://caa14023do77p"]
+[gd_scene load_steps=2 format=3 uid="uid://caa14023do77p"]
+
+[ext_resource type="Texture2D" uid="uid://c64g3q260yxv" path="res://Sapato/Images/malacura.png" id="1_b6klq"]
 
 [node name="StartupScene" type="Node2D"]
 position = Vector2(640, 360)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="BG" type="ColorRect" parent="."]
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.09375, 0.09375, 0.09375, 1)
+
+[node name="Malacura" type="Sprite2D" parent="."]
+scale = Vector2(0.403, 0.403)
+texture = ExtResource("1_b6klq")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+offset_left = -934.698
+offset_top = -61.3971
+offset_right = -894.698
+offset_bottom = -21.3971

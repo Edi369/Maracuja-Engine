@@ -1,6 +1,25 @@
 {
-    "Name": "Test",
-    "Dificults": [
-            "hor"
-    ]
+  "Name": "Cat Silly",
+  "BPM": 161,
+  "Difficults": [
+    "idk"
+  ],
+  "Characters": [
+    "Dad",
+    "Boyfriend"
+  ],
+  "ColorFree": {
+    "R": 1.0,
+    "G": 1.0,
+    "B": 1.0,
+    "A": 1.0,
+    "R8": 255,
+    "G8": 255,
+    "B8": 255,
+    "A8": 255,
+    "H": 0.0,
+    "S": 0.0,
+    "V": 1.0,
+    "Luminance": 1.0
+  }
 }

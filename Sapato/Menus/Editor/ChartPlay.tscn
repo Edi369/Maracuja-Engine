@@ -1,33 +1,13 @@
-[gd_scene load_steps=13 format=4 uid="uid://bqf71f1m6d2nr"]
+[gd_scene load_steps=11 format=4 uid="uid://bqf71f1m6d2nr"]
 
 [ext_resource type="PackedScene" uid="uid://dll2cnvmogfn1" path="res://Sapato/Objects/strums.tscn" id="1_wnfmt"]
 [ext_resource type="Script" path="res://Sapato/Scripts/NoteController.cs" id="2_5otp0"]
 [ext_resource type="Texture2D" uid="uid://dssmll3pn62yt" path="res://Sapato/Images/Menus/Editor/Notes/blue0.png" id="2_fmbhe"]
-[ext_resource type="Texture2D" uid="uid://6jnjqvjkd8n" path="res://Sapato/Images/Game/Strums/blue hold end.png" id="3_pfoak"]
 [ext_resource type="Texture2D" uid="uid://o0i3phmoj2bi" path="res://Sapato/Images/Menus/Editor/Notes/purple0.png" id="3_v87nh"]
 [ext_resource type="Texture2D" uid="uid://bp43jli26si58" path="res://Sapato/Images/Menus/Editor/Notes/red0.png" id="4_tujki"]
 [ext_resource type="Texture2D" uid="uid://cafhu2q1wilsq" path="res://Sapato/Images/Menus/Editor/Notes/green0.png" id="5_607io"]
-[ext_resource type="Texture2D" uid="uid://upofgi20ct4q" path="res://Sapato/Images/Game/Strums/blue hold piece.png" id="7_ofnhw"]
+[ext_resource type="PackedScene" uid="uid://d1mr4r1mssunx" path="res://Sapato/Objects/Game/LongNote.tscn" id="5_pfu8t"]
 [ext_resource type="Script" path="res://Sapato/Scripts/Menus/Menu/Editor/ChartMusicControl.cs" id="7_x55sk"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_jqn54"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_pfoak")
-}],
-"loop": true,
-"name": &"blue hold end",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("7_ofnhw")
-}],
-"loop": false,
-"name": &"blue hold piece",
-"speed": 0.0
-}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yxyuv"]
 animations = [{
@@ -123,14 +103,8 @@ scale = Vector2(0.75, 0.75)
 [node name="NoteController" type="Node" parent="Control"]
 script = ExtResource("2_5otp0")
 
-[node name="LongParallax" type="Parallax2D" parent="Control/NoteController"]
+[node name="Mask" parent="Control/NoteController" instance=ExtResource("5_pfu8t")]
 visible = false
-repeat_size = Vector2(0, 86.365)
-
-[node name="LongNoteSprite" type="AnimatedSprite2D" parent="Control/NoteController/LongParallax"]
-position = Vector2(0, 65.01)
-sprite_frames = SubResource("SpriteFrames_jqn54")
-animation = &"blue hold piece"
 
 [node name="NoteDummy" type="AnimatedSprite2D" parent="Control/NoteController"]
 visible = false

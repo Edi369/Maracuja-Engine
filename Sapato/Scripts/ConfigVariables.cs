@@ -7,7 +7,7 @@ public partial class ConfigVariables : Node
 {
 	public static bool AutoPause = false;
 
-	public static int _fpxmax = 500;
+	public static int _fpxmax = 1000;
 	/// <summary>
 	/// The Max Fps Conrigurable
 	/// </summary>

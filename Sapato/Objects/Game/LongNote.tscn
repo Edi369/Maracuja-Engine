@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1mr4r1mssunx"]
+
+[ext_resource type="Texture2D" uid="uid://6jnjqvjkd8n" path="res://Sapato/Images/Game/Strums/blue hold end.png" id="1_d3gvc"]
+[ext_resource type="Texture2D" uid="uid://upofgi20ct4q" path="res://Sapato/Images/Game/Strums/blue hold piece.png" id="2_ecio8"]
+[ext_resource type="Texture2D" uid="uid://ha8sd3xoct03" path="res://Sapato/Images/Game/Strums/green hold end.png" id="3_aqcw3"]
+[ext_resource type="Texture2D" uid="uid://bo6y03w3m7rq4" path="res://Sapato/Images/Game/Strums/green hold piece.png" id="4_edgiy"]
+[ext_resource type="Texture2D" uid="uid://dt478036xr7jt" path="res://Sapato/Images/Game/Strums/pruple end hold.png" id="5_q0niv"]
+[ext_resource type="Texture2D" uid="uid://b1pncql7ch3x1" path="res://Sapato/Images/Game/Strums/purple hold piece.png" id="6_1wpnh"]
+[ext_resource type="Texture2D" uid="uid://rl4bqh6sot0a" path="res://Sapato/Images/Game/Strums/red hold end.png" id="7_to2xd"]
+[ext_resource type="Texture2D" uid="uid://mxek1jlnff5p" path="res://Sapato/Images/Game/Strums/red hold piece.png" id="8_1cd85"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jqn54"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d3gvc")
+}],
+"loop": false,
+"name": &"down hold end",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ecio8")
+}],
+"loop": false,
+"name": &"down hold piece",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_q0niv")
+}],
+"loop": false,
+"name": &"left hold end",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_1wpnh")
+}],
+"loop": false,
+"name": &"left hold piece",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_to2xd")
+}],
+"loop": false,
+"name": &"right hold end",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_1cd85")
+}],
+"loop": false,
+"name": &"right hold piece",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_aqcw3")
+}],
+"loop": false,
+"name": &"up hold end",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_edgiy")
+}],
+"loop": false,
+"name": &"up hold piece",
+"speed": 0.0
+}]
+
+[node name="Mask" type="Node2D"]
+clip_children = 1
+
+[node name="Mask" type="ColorRect" parent="."]
+clip_children = 1
+offset_right = 51.0
+offset_bottom = 718.0
+
+[node name="LongParallax" type="Parallax2D" parent="Mask"]
+repeat_size = Vector2(0, 86.365)
+repeat_times = 7
+
+[node name="LongNoteSprite" type="AnimatedSprite2D" parent="Mask/LongParallax"]
+visibility_layer = 2
+position = Vector2(24.495, 301.21)
+sprite_frames = SubResource("SpriteFrames_jqn54")
+animation = &"right hold piece"

@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using FileAccess = Godot.FileAccess;
 using System.IO;
+using NAudio.Wave;
 
 public partial class ChartEditor : Node2D
 {
@@ -12,10 +13,11 @@ public partial class ChartEditor : Node2D
 	[Export] public float test2 = 363.817f;
 	[Export] public float test3 = 2160.55f;
 
-	private string SongName = "Test";
-	private string Difficulty = "hor";
+	[Signal] public delegate void LoadMusicChartEventHandler(byte[] data);
+	
+	[Signal] public delegate void LoadVoicesChartEventHandler(byte[] data);
 
-	private float FakeYPosition = 0;
+	public float FakeYPosition = 0;
 	private Vector2 MouseClickPosition = new Vector2(0, 0);
 	private float MouseClickSongPosition = 0;
 	private bool Paused = true;
@@ -43,6 +45,9 @@ public partial class ChartEditor : Node2D
 	public static List<NoteInfo> ListNotes = new List<NoteInfo>();
 	public static List<NoteInfo> NotesSelected = new List<NoteInfo>();
 	public static ChartInfo chartinfo;
+	public static ChartMeta chartmeta;
+	public static string SongName = "Test";
+	public static string Difficulty = "idk";
 
 	public override void _Ready()
 	{
@@ -58,46 +63,77 @@ public partial class ChartEditor : Node2D
 
 		ListNotes.Clear();
 		Events();
+		LoadMetaFromPath($"res://Sapato/Songs/{SongName}/Meta.json");
 		LoadMusic();
 		LoadChartFromPath($"res://Sapato/Songs/{SongName}/Chart/{Difficulty}.json");
 
 		ScrollChange = 60f/GetNode<ChartMusicControl>("MusicControl").BPM;
+
+		DiscordRpc.UpdateDetails($"Charting {SongName}");
 	}
 
 	private void LoadMusic()
 	{
 		try
 		{
-			AudioStreamOggVorbis data = new AudioStreamOggVorbis();
-			
-			if (AudioStreamOggVorbis.LoadFromFile($"res://Sapato/Songs/{SongName}/Music/Inst.ogg") != null)
+			if (Voices.Stream == null)
 			{
-				data = AudioStreamOggVorbis.LoadFromFile($"res://Sapato/Songs/{SongName}/Music/Inst.ogg");
-				Music.Stream = data;
+				if (File.Exists(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Voices.ogg")))
+				{
+					AudioStreamOggVorbis data = AudioStreamOggVorbis.LoadFromFile($"res://Sapato/Songs/{SongName}/Music/Voices.ogg");
+					Voices.Stream = data;
+				}
+				else if (File.Exists(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Voices.mp3")))
+				{
+					using var file = FileAccess.Open($"res://Sapato/Songs/{SongName}/Music/Voices.mp3", FileAccess.ModeFlags.Read);
+					var mp3Data = new AudioStreamMP3()
+					{
+						Data = file.GetBuffer((long)file.GetLength()),
+					};
+					Voices.Stream = mp3Data;
 
+					using (Mp3FileReader mp3 = new Mp3FileReader(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Voices.mp3")))
+					{
+						using(WaveStream pcm = WaveFormatConversionStream.CreatePcmStream(mp3))
+						{
+							using (MemoryStream wavStream = new MemoryStream())
+							{
+								WaveFileWriter.WriteWavFileToStream(wavStream, pcm);
+								EmitSignal(SignalName.LoadVoicesChart, wavStream.ToArray());
+							}
+						}
+					}
+				}
 			}
-
-			if (AudioStreamOggVorbis.LoadFromFile($"res://Sapato/Songs/{SongName}/Music/Voices.ogg") != null)
-			{
-				data = AudioStreamOggVorbis.LoadFromFile($"res://Sapato/Songs/{SongName}/Music/Voices.ogg");
-				Voices.Stream = data;
-			}
-			data = null;
 
 			if (Music.Stream == null)
 			{
-				using var file = FileAccess.Open($"res://Sapato/Songs/{SongName}/Music/Inst.mp3", FileAccess.ModeFlags.Read);
-				var mp3Data = new AudioStreamMP3();
-				mp3Data.Data = file.GetBuffer((long)file.GetLength());
-				Music.Stream = mp3Data;
-			}
+				if (File.Exists(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Inst.ogg")))
+				{
+					AudioStreamOggVorbis data = AudioStreamOggVorbis.LoadFromFile($"res://Sapato/Songs/{SongName}/Music/Inst.ogg");
+					Music.Stream = data;
+				}
+				else if (File.Exists(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Inst.mp3")))
+				{
+					using var file = FileAccess.Open($"res://Sapato/Songs/{SongName}/Music/Inst.mp3", FileAccess.ModeFlags.Read);
+					var mp3Data = new AudioStreamMP3()
+					{
+						Data = file.GetBuffer((long)file.GetLength()),
+					};
+					Music.Stream = mp3Data;
 
-			if (Voices.Stream == null)
-			{
-				using var file = FileAccess.Open($"res://Sapato/Songs/{SongName}/Music/Voices.mp3", FileAccess.ModeFlags.Read);
-				var mp3Data = new AudioStreamMP3();
-				mp3Data.Data = file.GetBuffer((long)file.GetLength());
-				Voices.Stream = mp3Data;
+					using (Mp3FileReader mp3 = new Mp3FileReader(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Inst.mp3")))
+					{
+						using(WaveStream pcm = WaveFormatConversionStream.CreatePcmStream(mp3))
+						{
+							using (MemoryStream wavStream = new MemoryStream())
+							{
+								WaveFileWriter.WriteWavFileToStream(wavStream, pcm);
+								EmitSignal(SignalName.LoadMusicChart, wavStream.ToArray());
+							}
+						}
+					}
+				}
 			}
 			
 			if (Music.Stream == null)
@@ -287,6 +323,7 @@ public partial class ChartEditor : Node2D
 		{
 			if (IsTesting)
 			{
+				InstanceTesting.CallDeferred("queue_free");
 				CallDeferred("remove_child", InstanceTesting);
 				IsTesting = false;
 				return;
@@ -499,16 +536,12 @@ public partial class ChartEditor : Node2D
 		{
 			foreach (NoteInfo note in NotesSelected)
 			{
-				if (note.LongNote == null)
+				if (note.LongNoteLenght == null)
 				{
-					note.LongNote = new LongNoteInfo()
-					{
-						StartTime = note.TimeNote,
-						EndTime = note.TimeNote+10f/GetNode<ChartMusicControl>("MusicControl").BPM
-					};
+					note.LongNoteLenght = note.TimeNote+(10f/GetNode<ChartMusicControl>("MusicControl").BPM);
 
 					ColorRect longnote = new ColorRect();
-					longnote.Size = new Vector2(LongNoteDummy.Size.X, ((note.LongNote.EndTime-note.LongNote.StartTime)*test3)+19.12f);
+					longnote.Size = new Vector2(LongNoteDummy.Size.X, (((float)note.LongNoteLenght-note.TimeNote)*test3)+19.49f);
 					longnote.Color = GetColorFromDirection(note.Direction);
 					longnote.Position = new Vector2(-12.795f, 61.905f);
 					longnote.ZIndex = -1;
@@ -517,7 +550,7 @@ public partial class ChartEditor : Node2D
 				}
 				else
 				{
-					note.LongNote.EndTime += 10f/GetNode<ChartMusicControl>("MusicControl").BPM;
+					note.LongNoteLenght += 10f/GetNode<ChartMusicControl>("MusicControl").BPM;
 					UpdateLongNote();
 				}
 			}
@@ -527,17 +560,17 @@ public partial class ChartEditor : Node2D
 		{
 			foreach (NoteInfo note in NotesSelected)
 			{
-				if (note.LongNote != null)
+				if (note.LongNoteLenght != null)
 				{
-					if (note.LongNote.EndTime-.1f <= note.LongNote.StartTime)
+					if (note.LongNoteLenght-.1f <= note.TimeNote)
 					{
 						note.Note.GetChild<ColorRect>(0).QueueFree();
 						note.Note.RemoveChild(note.Note.GetChild<ColorRect>(0));
-						note.LongNote = null;
+						note.LongNoteLenght = null;
 						continue;
 					}
 
-					note.LongNote.EndTime -= 10f/GetNode<ChartMusicControl>("MusicControl").BPM;
+					note.LongNoteLenght -= 10f/GetNode<ChartMusicControl>("MusicControl").BPM;
 					UpdateLongNote();
 				}
 			}
@@ -558,9 +591,9 @@ public partial class ChartEditor : Node2D
 
 	public void UpdateLongNote()
 	{
-		foreach(NoteInfo note in ListNotes.Where(n => n.LongNote != null))
+		foreach(NoteInfo note in ListNotes.Where(n => n.LongNoteLenght != null))
 		{
-			note.Note.GetChild<ColorRect>(0).Size = new Vector2(note.Note.GetChild<ColorRect>(0).Size.X, ((note.LongNote.EndTime-note.LongNote.StartTime)*test3)+19.12f);
+			note.Note.GetChild<ColorRect>(0).Size = new Vector2(note.Note.GetChild<ColorRect>(0).Size.X, (((float)note.LongNoteLenght-note.TimeNote)*test3)+19.12f);
 		}
 	}
 
@@ -691,8 +724,9 @@ public partial class ChartEditor : Node2D
 			IsPlayAnimation = true,
 			Direction = MouseNoteDirection % 4,
 			NoteId = noteIndex,
-			LongNote = null
+			LongNoteLenght = null
 		};
+
 		ListNotes.Add(info);
 		NotesSelected.Clear();
 		NotesSelected.Add(info);
@@ -872,6 +906,44 @@ public partial class ChartEditor : Node2D
 		GetNode<FileDialog>("HUDinGame/InfoDataAll/TabContainer/File/LoadJson").Visible = true;
 	}
 
+	private void LoadMetaFromPath(string o)
+	{
+		if (File.Exists(ProjectSettings.GlobalizePath(o)))
+		{
+			try
+			{
+				using var file = FileAccess.Open(o, FileAccess.ModeFlags.Read);
+				chartmeta = JsonConvert.DeserializeObject<ChartMeta>(file.GetAsText());
+				GetNode<ChartMusicControl>("MusicControl").BPM = chartmeta.BPM;
+			}
+			catch(Exception ex)
+			{
+				GD.PrintErr($"Can't load the Meta file! {ex}");
+			}
+
+		}
+		else
+		{
+			try
+			{
+				GD.PushWarning($"Meta dont found... generating a new! Path: {ProjectSettings.GlobalizePath(o)}");
+				chartmeta = new ChartMeta()
+				{
+					Name = "Test",
+					BPM = 161,
+					Difficults = new string[] { "idk" },
+					Characters = new string[] { "Dad", "Boyfriend" },
+					ColorFree = new Color(1, 1, 1, 1),
+				};
+				File.WriteAllText(ProjectSettings.GlobalizePath(o), JsonConvert.SerializeObject(chartmeta, Formatting.Indented));
+			}
+			catch(Exception ex)
+			{
+				GD.PushWarning($"Can't create a new Meta file! {ex}");	
+			}
+		}
+	}
+
 	private void LoadChartFromPath(string o)
 	{
 		try
@@ -923,10 +995,10 @@ public partial class ChartEditor : Node2D
 				noteinfo.Note = note;
 				noteinfo.NoteId = _notesIndex;
 
-				if (noteinfo.LongNote != null)
+				if (noteinfo.LongNoteLenght != null)
 				{
 					ColorRect longnote = new ColorRect();
-					longnote.Size = new Vector2(LongNoteDummy.Size.X, ((noteinfo.LongNote.EndTime-noteinfo.LongNote.StartTime)*test3)+19.12f);
+					longnote.Size = new Vector2(LongNoteDummy.Size.X, (((float)noteinfo.LongNoteLenght-noteinfo.TimeNote)*test3)+19.12f);
 					longnote.Color = GetColorFromDirection(noteinfo.Direction);
 					longnote.Position = new Vector2(-12.795f, 61.905f);
 					longnote.ZIndex = -1;
@@ -939,7 +1011,7 @@ public partial class ChartEditor : Node2D
 		}
 		catch (Exception ex)
 		{
-			GD.PrintErr(ex);
+			GD.PrintErr($"Cant load chart! Ex: {ex}");
 		}
 	}
 

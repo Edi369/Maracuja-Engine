@@ -1,6 +1,5 @@
 using Godot;
 using Newtonsoft.Json;
-using System.Collections;
 
 public class NoteInfo
 {
@@ -12,7 +11,7 @@ public class NoteInfo
 	public string Comment = "";
 	public int Direction = 0;
 	public string StrumLine = "Dad";
-	public LongNoteInfo LongNote = null;
+	public float? LongNoteLenght = null;
 	public int NoteType = 0;
 	public bool IsPlayAnimation = true;
 	[JsonIgnore]

@@ -58,6 +58,11 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rqkg6"]
 animations = [{
+"frames": [],
+"loop": true,
+"name": &".",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_0amks")
@@ -361,4 +366,4 @@ script = ExtResource("1_l3x6e")
 
 [node name="DummyLetter" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_rqkg6")
-animation = &">"
+animation = &"."
