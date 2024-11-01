@@ -2,7 +2,7 @@ using Godot;
 
 public class LongInfo
 {
-    public ColorRect LongInstance;
+    public Node2D LongInstance;
     public int Direction;
     public string StrumLine;
     //public AnimatedSprite2D LongEndSprite;

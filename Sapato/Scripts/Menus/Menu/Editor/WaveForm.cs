@@ -3,7 +3,7 @@ using System;
 
 public partial class WaveForm : Line2D
 {
-	[Export] float valuetest = 0f;
+	[Export] float valuetest = 500000;
 	public byte[] dataBufferTest;
 
 	public override void _Ready()
@@ -20,14 +20,13 @@ public partial class WaveForm : Line2D
 			short[] samples = ExtractSamplesFromWav(data, out int sampleRate);
 			
 			float bpm = GetNode<ChartMusicControl>("../MusicControl").BPM;
-		    float songLengthInSeconds = samples.Length / (float)sampleRate;
+			float songLengthInSeconds = samples.Length / (float)sampleRate;
 
-		    float samplesPerBeat = sampleRate * 60f / bpm;
-		    float yScalingFactor = 1000f / songLengthInSeconds;
+			float samplesPerBeat = sampleRate * 60f / bpm;
+			float yScalingFactor = 1000f / songLengthInSeconds;
 
 			foreach (short dataSong in samples)
 			{
-				float songData = (dataSong)/300;
 				_indexs++;
 				float amplitude = dataSong / 32768f * 150;
 				float yPosition = _indexs / samplesPerBeat * yScalingFactor;
@@ -37,11 +36,8 @@ public partial class WaveForm : Line2D
 					continue;
 				}
 
-				//float YPos = _indexs*(((float)ChartEditor.Music.Stream.GetLength()/data.Length)/GetNode<ChartMusicControl>("../MusicControl").BPM);
-				float YPos = _indexs/samplesPerBeat;
-
-				this.AddPoint(new Vector2(-songData, yPosition*valuetest));
-				this.AddPoint(new Vector2(songData, yPosition*valuetest));
+				this.AddPoint(new Vector2(-amplitude, yPosition*samples.Length));
+				this.AddPoint(new Vector2(amplitude, yPosition*samples.Length));
 			}
 		};
 
@@ -52,14 +48,13 @@ public partial class WaveForm : Line2D
 			short[] samples = ExtractSamplesFromWav(data, out int sampleRate);
 			
 			float bpm = GetNode<ChartMusicControl>("../MusicControl").BPM;
-		    float songLengthInSeconds = samples.Length / (float)sampleRate;
+			float songLengthInSeconds = samples.Length / (float)sampleRate;
 
-		    float samplesPerBeat = sampleRate * 60f / bpm;
-		    float yScalingFactor = 1000f / songLengthInSeconds;
+			float samplesPerBeat = sampleRate * 60f / bpm;
+			float yScalingFactor = 1000f / songLengthInSeconds;
 
 			foreach (short dataSong in samples)
 			{
-				float songData = (dataSong)/300;
 				_indexs++;
 				float amplitude = dataSong / 32768f * 150;
 				float yPosition = _indexs / samplesPerBeat * yScalingFactor;
@@ -69,11 +64,8 @@ public partial class WaveForm : Line2D
 					continue;
 				}
 
-				//float YPos = _indexs*(((float)ChartEditor.Music.Stream.GetLength()/data.Length)/GetNode<ChartMusicControl>("../MusicControl").BPM);
-				float YPos = _indexs/samplesPerBeat;
-
-				this.AddPoint(new Vector2(-songData, yPosition*valuetest));
-				this.AddPoint(new Vector2(songData, yPosition*valuetest));
+				this.AddPoint(new Vector2(-amplitude, yPosition*(samples.Length/valuetest)));
+				this.AddPoint(new Vector2(amplitude, yPosition*(samples.Length/valuetest)));
 			}
 		};
 	}
@@ -90,21 +82,21 @@ public partial class WaveForm : Line2D
 	}
 
 	public static short[] ExtractSamplesFromWav(byte[] wavData, out int sampleRate)
-    {
+	{
 		sampleRate = BitConverter.ToInt32(wavData, 24);
-        int bitsPerSample = BitConverter.ToInt16(wavData, 34);
+		int bitsPerSample = BitConverter.ToInt16(wavData, 34);
 		int dataStartIndex = Array.IndexOf(wavData, (byte)'d', 36) + 8;
 
-        int bytesPerSample = bitsPerSample / 8;
-        int sampleCount = (wavData.Length - dataStartIndex) / bytesPerSample;
+		int bytesPerSample = bitsPerSample / 8;
+		int sampleCount = (wavData.Length - dataStartIndex) / bytesPerSample;
 
-        short[] samples = new short[sampleCount];
+		short[] samples = new short[sampleCount];
 
-        for (int i = 0; i < sampleCount; i++)
-        {
-            samples[i] = BitConverter.ToInt16(wavData, dataStartIndex + i * bytesPerSample);
-        }
+		for (int i = 0; i < sampleCount; i++)
+		{
+			samples[i] = BitConverter.ToInt16(wavData, dataStartIndex + i * bytesPerSample);
+		}
 
-        return samples;
-    }
+		return samples;
+	}
 }

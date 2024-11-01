@@ -63,7 +63,7 @@ public partial class NoteController : Node
 			}
 
 			AnimatedSprite2D note = new AnimatedSprite2D();
-			ColorRect LongNoteDummyInstace = LongNoteDummy.Instantiate<ColorRect>();
+			Node2D LongNoteDummyInstace = LongNoteDummy.Instantiate<Node2D>();
 			
 			note.Name = $"note{noteIndex}";
 			LongNoteDummyInstace.Name = $"longnote{noteIndex}";
@@ -73,19 +73,19 @@ public partial class NoteController : Node
 			{
 				default:
 					note.Play("left");
-					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"left hold piece");
+					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"left hold piece");
 					break;
 				case 1:
 					note.Play("down");
-					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"down hold piece");
+					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"down hold piece");
 					break;
 				case 2:
 					note.Play("up");
-					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"up hold piece");
+					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"up hold piece");
 					break;
 				case 3:
 					note.Play("right");
-					LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"right hold piece");
+					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"right hold piece");
 					break;
 			}
 
@@ -178,11 +178,11 @@ public partial class NoteController : Node
 		{
 			if (GetStrumNote(longnote.Value.StrumLine, longnote.Value.Direction, out AnimatedSprite2D strumSprite) != null)
 			{
-				longnote.Value.LongInstance.Visible = true;
-				longnote.Value.LongInstance.Size = new Vector2(longnote.Value.LongInstance.Size.X, ((longnote.Value.LongNoteEnd-longnote.Value.LongNoteStarted)*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(17.7*ScrollSpeed)))+150f);
-				longnote.Value.LongInstance.GetChild<Parallax2D>(0).RepeatTimes = 100;
-				longnote.Value.LongInstance.Position = new Vector2(strumSprite.Position.X-24, (longnote.Value.LongNoteStarted-MusicControl.GetChild<AudioStreamPlayer>(0).GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
-				//longnote.Value.LongEndSprite.Position = new Vector2(24.5f, longnote.Value.LongNoteEnd*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
+				//longnote.Value.LongInstance.Visible = true;
+				//longnote.Value.LongInstance.Size = new Vector2(longnote.Value.LongInstance.Size.X, ((longnote.Value.LongNoteEnd-longnote.Value.LongNoteStarted)*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(17.7*ScrollSpeed)))+150f);
+				//longnote.Value.LongInstance.GetChild<Parallax2D>(0).RepeatTimes = 100;
+				//longnote.Value.LongInstance.Position = new Vector2(strumSprite.Position.X-24, (longnote.Value.LongNoteStarted-MusicControl.GetChild<AudioStreamPlayer>(0).GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
+				////longnote.Value.LongEndSprite.Position = new Vector2(24.5f, longnote.Value.LongNoteEnd*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
 			}
 		}
 	}

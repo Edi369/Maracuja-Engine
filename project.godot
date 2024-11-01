@@ -32,7 +32,6 @@ GlobalThings="*res://Sapato/Scripts/global_things.tscn"
 [debug]
 
 settings/crash_handler/message="The Engine Crashed..."
-settings/stdout/verbose_stdout=true
 
 [display]
 

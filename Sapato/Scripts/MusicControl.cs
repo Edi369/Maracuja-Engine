@@ -43,10 +43,6 @@ public partial class MusicControl : Node
 			CurrentSTEP = (int)(Music.GetPlaybackPosition() / (30f/BPM));
 			CurrentBAR = (int)(Music.GetPlaybackPosition() / (240f/BPM));
 
-			DebugText.Text = @$"{CurrentBPM} :BPM
-{CurrentSTEP} :STEP
-{CurrentBAR} :BAR";
-
 			if (_oldSTEP != CurrentSTEP)
 			{
 				EmitSignal(SignalName.MusicStep, CurrentSTEP);

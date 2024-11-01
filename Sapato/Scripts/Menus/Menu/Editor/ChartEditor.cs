@@ -46,8 +46,8 @@ public partial class ChartEditor : Node2D
 	public static List<NoteInfo> NotesSelected = new List<NoteInfo>();
 	public static ChartInfo chartinfo;
 	public static ChartMeta chartmeta;
-	public static string SongName = "Test";
-	public static string Difficulty = "idk";
+	public static string SongName = "Timeless Daydream";
+	public static string Difficulty = "sata andagui";
 
 	public override void _Ready()
 	{
@@ -67,7 +67,7 @@ public partial class ChartEditor : Node2D
 		LoadMusic();
 		LoadChartFromPath($"res://Sapato/Songs/{SongName}/Chart/{Difficulty}.json");
 
-		ScrollChange = 60f/GetNode<ChartMusicControl>("MusicControl").BPM;
+		ScrollChange = 30f/GetNode<ChartMusicControl>("MusicControl").BPM;
 
 		DiscordRpc.UpdateDetails($"Charting {SongName}");
 	}
@@ -92,17 +92,7 @@ public partial class ChartEditor : Node2D
 					};
 					Voices.Stream = mp3Data;
 
-					using (Mp3FileReader mp3 = new Mp3FileReader(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Voices.mp3")))
-					{
-						using(WaveStream pcm = WaveFormatConversionStream.CreatePcmStream(mp3))
-						{
-							using (MemoryStream wavStream = new MemoryStream())
-							{
-								WaveFileWriter.WriteWavFileToStream(wavStream, pcm);
-								EmitSignal(SignalName.LoadVoicesChart, wavStream.ToArray());
-							}
-						}
-					}
+					GenerateWaveform("mp3", $"res://Sapato/Songs/{SongName}/Music/", "Voices");
 				}
 			}
 
@@ -122,17 +112,7 @@ public partial class ChartEditor : Node2D
 					};
 					Music.Stream = mp3Data;
 
-					using (Mp3FileReader mp3 = new Mp3FileReader(ProjectSettings.GlobalizePath($"res://Sapato/Songs/{SongName}/Music/Inst.mp3")))
-					{
-						using(WaveStream pcm = WaveFormatConversionStream.CreatePcmStream(mp3))
-						{
-							using (MemoryStream wavStream = new MemoryStream())
-							{
-								WaveFileWriter.WriteWavFileToStream(wavStream, pcm);
-								EmitSignal(SignalName.LoadMusicChart, wavStream.ToArray());
-							}
-						}
-					}
+					GenerateWaveform("mp3", $"res://Sapato/Songs/{SongName}/Music/", "Inst");
 				}
 			}
 			
@@ -314,6 +294,33 @@ public partial class ChartEditor : Node2D
 		if (voicesPlayer.Stream != null && Music.GetPlaybackPosition() < voicesPlayer.Stream.GetLength())
 		{
 			voicesPlayer.Play(MusicPosition);
+		}
+	}
+
+	private async void GenerateWaveform(string format, string path, string audio)
+	{
+		switch(format)
+		{
+			case "mp3":
+				await using (Mp3FileReader mp3 = new Mp3FileReader(ProjectSettings.GlobalizePath($"{path}{audio}.{format}")))
+				{
+					using(WaveStream pcm = WaveFormatConversionStream.CreatePcmStream(mp3))
+					{
+						using (MemoryStream wavStream = new MemoryStream())
+						{
+							WaveFileWriter.WriteWavFileToStream(wavStream, pcm);
+							if (audio == "Voices")
+							{
+								EmitSignal(SignalName.LoadVoicesChart, wavStream.ToArray());
+							}
+							else
+							{
+								EmitSignal(SignalName.LoadMusicChart, wavStream.ToArray());
+							}
+						}
+					}
+				}
+			break;
 		}
 	}
 
