@@ -21,8 +21,7 @@ public class Strum
 	}
 }
 
-[GlobalClass]
-public partial class GlobalVariables : Node
+public class GlobalVariables
 {
 	public static Dictionary<string, Strum> StrumLines = new Dictionary<string, Strum>();
 
@@ -64,13 +63,16 @@ public partial class GlobalVariables : Node
 	/// <value>int</value>
 	public static int Misses { get; set;} = 0;
 
-	public override void _Ready()
-	{
+	public static string CurrentSong { get; set; } = "Timeless Daydream";
+	public static string CurrentDifficult { get; set; } = "sata andagui";
 
-	}
+	public static int CameraShakeBeats { get; set; } = 4;
+	public static double CameraGAMEBaseZoom { get; set; } = 1;
+	public static double HUDBaseZoom { get; set; } = 1;
+	public static double ScrollSpeed { get; set; } = 1;
+	public static int BPM { get; set; } = 1;
 
-	public override void _Process(double delta)
-	{
-
-	}
+	public static CanvasLayer HUD { get; set; }
+	public static Camera2D CamGame { get; set; }
+	public static GlobalSignals Signals { get; set; }
 }

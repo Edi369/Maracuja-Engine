@@ -1,7 +1,6 @@
 using Godot;
 using System;
 
-[GlobalClass]
 public partial class ChartMusicControl : Node
 {
 	[Export] public AudioStreamPlayer Music { get; set; }
@@ -19,14 +18,9 @@ public partial class ChartMusicControl : Node
 
 	public static bool SongFinished = false;
 
-	[Signal]
-	public delegate void MusicBeatEventHandler(int Beat);
-
-	[Signal]
-	public delegate void MusicStepEventHandler(int Step);
-
-	[Signal]
-	public delegate void MusicBarEventHandler(int Bar);
+	[Signal] public delegate void MusicBeatEventHandler(int Beat);
+	[Signal] public delegate void MusicStepEventHandler(int Step);
+	[Signal] public delegate void MusicBarEventHandler(int Bar);
 
 	public override void _PhysicsProcess(double delta)
 	{

@@ -14,7 +14,6 @@ public partial class ChartEditor : Node2D
 	[Export] public float test3 = 2160.55f;
 
 	[Signal] public delegate void LoadMusicChartEventHandler(byte[] data);
-	
 	[Signal] public delegate void LoadVoicesChartEventHandler(byte[] data);
 
 	public float FakeYPosition = 0;
@@ -49,6 +48,8 @@ public partial class ChartEditor : Node2D
 	public static string SongName = "Timeless Daydream";
 	public static string Difficulty = "sata andagui";
 
+	//HOLY 𝓯𝓻𝓮𝓪𝓴𝔂 CODE!!!
+
 	public override void _Ready()
 	{
 		TilesBG = GetNode<Parallax2D>("TilesBackGround");
@@ -59,7 +60,7 @@ public partial class ChartEditor : Node2D
 		Music = GetNode<ChartMusicControl>("MusicControl").Music;
 		Voices = GetNode<ChartMusicControl>("MusicControl").Voices;
 
-		DisplayServer.WindowSetTitle("FNF - Maracuja Engine (ChartEditor)");
+		DisplayServer.WindowSetTitle("FNF - Maracuja Engine (Chart Editor)");
 
 		ListNotes.Clear();
 		Events();
@@ -278,7 +279,7 @@ public partial class ChartEditor : Node2D
 
 	void SetupCharPlayMusic()
 	{
-		InstanceTesting.GetNode<NoteController>("Control/NoteController").ListNotes = ListNotes;
+		InstanceTesting.GetNode<NoteController>("Control/NoteController").ListNotes = ListNotes.ToArray();
 		InstanceTesting.GetNode<NoteController>("Control/NoteController").GenerateNotes();
 
 		ChartMusicControl musicControl = InstanceTesting.GetNode<ChartMusicControl>("Control/NoteController/MusicControl");
@@ -892,10 +893,10 @@ public partial class ChartEditor : Node2D
 	public List<NoteInfo> NotesAboveMouse()
 	{
 		List<NoteInfo> notesabove = new List<NoteInfo>();
-		foreach (NoteInfo noteAbove in ListNotes.ToList())
+		foreach (NoteInfo noteAbove in ListNotes.ToList().Where(n => n.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) <= 15f && n.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) >= -15f))
 		{
 			SetMouseDirection();
-			if(noteAbove.StrumLine == GetStrumOnMouse() && MouseNoteDirection % 4 == noteAbove.Direction && noteAbove.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) <= 15f && noteAbove.Position.Y - (GetLocalMousePosition().Y-FakeYPosition) >= -15f)
+			if(noteAbove.StrumLine == GetStrumOnMouse() && MouseNoteDirection % 4 == noteAbove.Direction)
 			{
 				notesabove.Add(noteAbove);
 			}

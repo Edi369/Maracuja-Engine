@@ -3,11 +3,11 @@
 using Godot;
 using System;
 
-public partial class ConfigVariables : Node
+public class ConfigVariables
 {
 	public static bool AutoPause = false;
 
-	public static int _fpxmax = 1000;
+	public static int _fpxmax = 240;
 	/// <summary>
 	/// The Max Fps Conrigurable
 	/// </summary>

@@ -30,7 +30,7 @@ layer = 4
 [node name="BG" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(642, 360)
-scale = Vector2(5.05078, 736)
+scale = Vector2(2000, 2000)
 texture = SubResource("GradientTexture1D_bn2r5")
 
 [node name="ZZZ" type="AnimatedSprite2D" parent="."]

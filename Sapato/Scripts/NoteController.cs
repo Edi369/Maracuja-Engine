@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 public partial class NoteController : Node
 {
 	private float SongPositionY = 0f;
-	public List<NoteInfo> ListNotes = new List<NoteInfo>();
+	public NoteInfo[] ListNotes = new NoteInfo[]{};
 	public Dictionary<int, NoteInfo> ActualNote = new Dictionary<int, NoteInfo>();
 	public Dictionary<int, LongInfo> ActualLongs = new Dictionary<int, LongInfo>();
 	private AnimatedSprite2D NoteDummy;
@@ -16,6 +16,8 @@ public partial class NoteController : Node
 	public int NotePlayerIndex = 0;
 	public double ScrollSpeed = 1;
 	public bool[] StrumsPressed = new bool[]{ false, false, false, false };
+
+	//𝓯𝓻𝓮𝓪𝓴𝔂 code
 
 	public override void _Ready()
 	{
@@ -57,42 +59,23 @@ public partial class NoteController : Node
 				continue;
 			}
 
-			if (noteinfo.TimeNote < ChartEditor.Music.GetPlaybackPosition())
+			if (noteinfo.TimeNote < GetNode<AudioStreamPlayer>("MusicControl/Inst").GetPlaybackPosition())
 			{
 				continue;
 			}
 
-			AnimatedSprite2D note = new AnimatedSprite2D();
+			AnimatedSprite2D note = new AnimatedSprite2D()
+			{
+				Name = $"note{noteIndex}",
+				SpriteFrames = NoteDummy.SpriteFrames,
+				Visible = false,
+			};
 			Node2D LongNoteDummyInstace = LongNoteDummy.Instantiate<Node2D>();
 			
-			note.Name = $"note{noteIndex}";
 			LongNoteDummyInstace.Name = $"longnote{noteIndex}";
-			note.SpriteFrames = NoteDummy.SpriteFrames;
 
-			switch (noteinfo.Direction)
-			{
-				default:
-					note.Play("left");
-					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"left hold piece");
-					break;
-				case 1:
-					note.Play("down");
-					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"down hold piece");
-					break;
-				case 2:
-					note.Play("up");
-					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"up hold piece");
-					break;
-				case 3:
-					note.Play("right");
-					//LongNoteDummyInstace.GetChild(0).GetChild<AnimatedSprite2D>(0).Play($"right hold piece");
-					break;
-			}
+			note.Play(GetAnimationIndex(noteinfo.Direction));
 
-			//NoteInfo info = noteinfo;
-			//info.Note = note;
-			//ActualNote.Add(noteIndex, info);
-			note.Visible = false;
 			LongNoteDummyInstace.Visible = false;
 
 			if (noteinfo.LongNoteLenght != null)
@@ -102,7 +85,6 @@ public partial class NoteController : Node
 					LongInstance = LongNoteDummyInstace,
 					Direction = noteinfo.Direction,
 					StrumLine = noteinfo.StrumLine,
-					//LongEndSprite = null,
 					LongNoteStarted = noteinfo.TimeNote,
 					LongNoteEnd = (float)noteinfo.LongNoteLenght
 				});
@@ -118,21 +100,9 @@ public partial class NoteController : Node
 				Direction = noteinfo.Direction,
 				LongNoteLenght = noteinfo.LongNoteLenght
 			});
-			
-			foreach (Node node in GlobalVariables.StrumLines[noteinfo.StrumLine].STRUM.GetChildren())
-			{
-				if (node.Name != "Notes")
-				{
-					continue;
-				}
 
-				if (ActualNote[noteIndex].LongNoteLenght != null)
-				{
-					node.AddChild(LongNoteDummyInstace);
-				}
-
-				node.AddChild(note);
-			}
+			GetStrumNote(noteinfo.StrumLine, noteinfo.Direction, out AnimatedSprite2D strumSprite);
+			strumSprite.AddChild(note);
 		}
 	}
 
@@ -165,12 +135,12 @@ public partial class NoteController : Node
 
 	public override void _Process(double delta)
 	{
-		foreach(KeyValuePair<int, NoteInfo> note in ActualNote.Where(n => n.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < .6f))
+		foreach(KeyValuePair<int, NoteInfo> note in ActualNote.Where(n => n.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < 1f))
 		{
 			if (GetStrumNote(note.Value.StrumLine, note.Value.Direction, out AnimatedSprite2D strumSprite) != null)
 			{
 				note.Value.Note.Visible = true;
-				note.Value.Note.Position = new Vector2(strumSprite.Position.X, (note.Value.TimeNote-MusicControl.GetChild<AudioStreamPlayer>(0).GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
+				note.Value.Note.Position = new Vector2(0, (note.Value.TimeNote-MusicControl.GetChild<AudioStreamPlayer>(0).GetPlaybackPosition())*(GetNode<ChartMusicControl>("MusicControl").BPM*(float)(11.948*ScrollSpeed)));
 			}
 		}
 		
@@ -214,7 +184,7 @@ public partial class NoteController : Node
 			}
 		}
 
-		foreach(KeyValuePair<int, NoteInfo> note in ActualNote.Where(n => n.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < .15f))
+		foreach(KeyValuePair<int, NoteInfo> note in ActualNote.Where(n => n.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < .25f))
 		{
 			NoteInfo oldNote = note.Value;
 
@@ -227,7 +197,7 @@ public partial class NoteController : Node
 
 			if (GlobalVariables.StrumLines.ContainsKey(note.Value.StrumLine) && GlobalVariables.StrumLines[note.Value.StrumLine].STRUM.Player)
 			{
-				PlayerPlayStrum(oldNote, note.Key);
+				PlayerPlayStrum(oldNote, note.Key, note.Value.TimeNote - MusicControl.Music.GetPlaybackPosition());
 				continue;	
 			}
 
@@ -238,28 +208,36 @@ public partial class NoteController : Node
 			}
 		}
 
-		for (int i = 0; i < 4; i++)
+
+		foreach (KeyValuePair<string, Strum> strum in GlobalVariables.StrumLines)
 		{
-			if (Input.IsActionPressed(GetInputName(i)) && !StrumsPressed[i])
+			if (strum.Value.STRUM.Player != true)
 			{
-				if (GetStrumNote("Boyfriend", i, out AnimatedSprite2D strumSprite).Animation != "press")
-				{
-					strumSprite.Play("press");	
-				}
+				continue;
 			}
 
-			else if (!Input.IsActionPressed(GetInputName(i)))
+			for (int i = 0; i < 4; i++)
 			{
-				GetStrumNote("Boyfriend", i, out AnimatedSprite2D strumSprite).Play("idle");
-				StrumsPressed[i] = false;
-			}
+				if (Input.IsActionPressed(GetInputName(i)) && !StrumsPressed[i])
+				{
+					if (GetStrumNote(strum.Key, i, out AnimatedSprite2D strumSprite).Animation != "press")
+					{
+						strumSprite.Play("press");	
+					}
+				}
+
+				else if (!Input.IsActionPressed(GetInputName(i)))
+				{
+					GetStrumNote(strum.Key, i, out AnimatedSprite2D strumSprite).Play("idle");
+					StrumsPressed[i] = false;
+				}
+			}	
 		}
 	}
 
-	public async void PlayStrumAnimation(int index , string StrumLine)
+	public async void PlayStrumAnimation(int index , string StrumLine, AnimatedSprite2D strumSprite)
 	{
 		MusicControl.Voices.VolumeDb = 0;
-		GetStrumNote(StrumLine, index, out AnimatedSprite2D strumSprite);
 
 		if (strumSprite == null)
 		{
@@ -270,21 +248,63 @@ public partial class NoteController : Node
 		strumSprite.Play("confirm");
 	}
 
-	public bool PlayerPlayStrum(NoteInfo note, int index)
+	public string GetAnimationIndex(int index)
 	{
-		if (!Input.IsActionJustPressed(GetInputName(note.Direction)))
+		switch (index % 4)
+		{
+			default:
+				return "left";
+			case 1:
+				return "down";
+			case 2:
+				return "up";
+			case 3:
+				return "right";
+		}
+	}
+
+	public bool PlayerPlayStrum(NoteInfo note, int index, float pressedTime)
+	{
+		if (!Input.IsActionJustPressed(GetInputName(note.Direction)) || StrumsPressed[note.Direction])
 		{
 			return false;
 		}
 
-		//GetStrumNote(note.StrumLine, note.Direction, out AnimatedSprite2D strumSprite);
-
-		if (StrumsPressed[note.Direction])
+		GetStrumNote(note.StrumLine, note.Direction, out AnimatedSprite2D strumSprite);
+		PlayStrumAnimation(note.Direction, note.StrumLine, strumSprite);
+		
+		NoteHitEventArgs eventArgs = new NoteHitEventArgs()
 		{
-			return false;
+			Note = note,
+			Rating = "sick",
+			Score = 300,
+			Delay = pressedTime*100,
+			IsSusteinNote = false,
+		};
+
+		if (Mathf.Abs(pressedTime) <= 0.05)
+		{
+			CreateSplash(note.Direction, strumSprite);
+		}
+		else if (Mathf.Abs(pressedTime) <= 0.07)
+		{
+			eventArgs.Rating = "good";
+			eventArgs.Score = 150;
+		}
+		else if (Mathf.Abs(pressedTime) <= 0.1)
+		{
+			eventArgs.Rating = "bad";
+			eventArgs.Score = 50;
+		}
+		else
+		{
+			eventArgs.Rating = "shit";
+			eventArgs.Score = 10;
 		}
 
-		PlayStrumAnimation(note.Direction, note.StrumLine);
+		GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.NoteHit, eventArgs);
+		GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.PlayerNoteHit, eventArgs);
+
 		ActualNote.Remove(index);
 		note.Note.QueueFree();
 
@@ -303,6 +323,48 @@ public partial class NoteController : Node
 		StrumsPressed[note.Direction] = true;
 		
 		return true;
+	}
+
+	public void CreateSplash(int index, AnimatedSprite2D strumSprite)
+	{
+		if (this.GetChildren().Where(n => n.Name == "NoteSplashDummy").Count() == 0)
+		{
+			return;
+		}
+
+		foreach(Node oldSplash in strumSprite.GetChildren().Where(n => n.Name == $"splash-{GetAnimationIndex(index)}"))
+		{
+			oldSplash.QueueFree();
+			strumSprite.RemoveChild(oldSplash);
+		}
+
+		AnimatedSprite2D SplashDummy = GetNode<AnimatedSprite2D>("NoteSplashDummy");
+		AnimatedSprite2D splash = new AnimatedSprite2D()
+		{
+			Name = $"splash-{GetAnimationIndex(index)}",
+			SpriteFrames = SplashDummy.SpriteFrames,
+			ZIndex = SplashDummy.ZIndex,
+		};
+
+		if (GetAnimationIndex(index) == "left")
+		{
+			splash.Position = new Vector2(-15f, 0);
+		} else if (GetAnimationIndex(index) == "right")
+		{
+			splash.Position = new Vector2(10f, 0);
+		} else if (GetAnimationIndex(index) == "down")
+		{
+			splash.Position = new Vector2(-6f, 0);
+		}
+
+		splash.Play(GetAnimationIndex(index));
+		splash.AnimationFinished += () =>
+		{
+			splash.QueueFree();
+			strumSprite.RemoveChild(splash);
+		};
+
+		strumSprite.AddChild(splash);
 	}
 
 	public string GetInputName(int direction)
@@ -325,9 +387,23 @@ public partial class NoteController : Node
 
 	public void DadPlayStrum(NoteInfo note, int index)
 	{
-		PlayStrumAnimation(note.Direction, note.StrumLine);
+		GetStrumNote(note.StrumLine, note.Direction, out AnimatedSprite2D strumSprite);
+
+		PlayStrumAnimation(note.Direction, note.StrumLine, strumSprite);
 		ActualNote.Remove(index);
 		note.Note.QueueFree();
+
+		NoteHitEventArgs eventArgs = new NoteHitEventArgs()
+		{
+			Note = note,
+			Rating = "sick",
+			Score = 300,
+			Delay = 0,
+			IsSusteinNote = false,
+		};
+
+		GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.NoteHit, eventArgs);
+		GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.CPUNoteHit, eventArgs);
 
 		foreach (Node node in GlobalVariables.StrumLines[note.StrumLine].STRUM.GetChildren())
 		{

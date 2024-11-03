@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bqf71f1m6d2nr"]
+[gd_scene load_steps=28 format=4 uid="uid://bqf71f1m6d2nr"]
 
 [ext_resource type="PackedScene" uid="uid://dll2cnvmogfn1" path="res://Sapato/Objects/strums.tscn" id="1_wnfmt"]
 [ext_resource type="Script" path="res://Sapato/Scripts/NoteController.cs" id="2_5otp0"]
@@ -7,7 +7,23 @@
 [ext_resource type="Texture2D" uid="uid://bp43jli26si58" path="res://Sapato/Images/Menus/Editor/Notes/red0.png" id="4_tujki"]
 [ext_resource type="Texture2D" uid="uid://cafhu2q1wilsq" path="res://Sapato/Images/Menus/Editor/Notes/green0.png" id="5_607io"]
 [ext_resource type="PackedScene" uid="uid://d1mr4r1mssunx" path="res://Sapato/Objects/Game/LongNote.tscn" id="5_pfu8t"]
-[ext_resource type="Script" path="res://Sapato/Scripts/Menus/Menu/Editor/ChartMusicControl.cs" id="7_x55sk"]
+[ext_resource type="Script" path="res://Sapato/Scripts/Game/ChartMusicControl.cs" id="7_x55sk"]
+[ext_resource type="Texture2D" uid="uid://pewdncy3gyg2" path="res://Sapato/Images/Game/Strums/note impact 1 blue3.png" id="8_2st0m"]
+[ext_resource type="Texture2D" uid="uid://dgbgpcejuu8sj" path="res://Sapato/Images/Game/Strums/note impact 1 blue0.png" id="9_305pb"]
+[ext_resource type="Texture2D" uid="uid://d4kqdgcif08pc" path="res://Sapato/Images/Game/Strums/note impact 1 blue2.png" id="10_2fmge"]
+[ext_resource type="Texture2D" uid="uid://dvx8yfh4seukp" path="res://Sapato/Images/Game/Strums/note impact 1 blue1.png" id="11_2ddor"]
+[ext_resource type="Texture2D" uid="uid://pgd8lko22nlf" path="res://Sapato/Images/Game/Strums/note impact 1 purple3.png" id="12_0mpfi"]
+[ext_resource type="Texture2D" uid="uid://mrlg4u67n0gd" path="res://Sapato/Images/Game/Strums/note impact 1 purple1.png" id="13_0n4ho"]
+[ext_resource type="Texture2D" uid="uid://b4t865c2msl58" path="res://Sapato/Images/Game/Strums/note impact 1 purple0.png" id="14_gni7q"]
+[ext_resource type="Texture2D" uid="uid://cpxblkhsrikmu" path="res://Sapato/Images/Game/Strums/note impact 1 purple2.png" id="15_gqjax"]
+[ext_resource type="Texture2D" uid="uid://dk5au4kcww0kc" path="res://Sapato/Images/Game/Strums/note impact 1 red3.png" id="16_sxlbq"]
+[ext_resource type="Texture2D" uid="uid://yar2103x0u1l" path="res://Sapato/Images/Game/Strums/note impact 1 red2.png" id="17_g8b0x"]
+[ext_resource type="Texture2D" uid="uid://d050kdas7mavk" path="res://Sapato/Images/Game/Strums/note impact 1 red0.png" id="18_xx60t"]
+[ext_resource type="Texture2D" uid="uid://c4nyc2lnpbc4p" path="res://Sapato/Images/Game/Strums/note impact 1 red1.png" id="19_qaojd"]
+[ext_resource type="Texture2D" uid="uid://dgfaca5uhnnfg" path="res://Sapato/Images/Game/Strums/note impact 1 green1.png" id="20_gwbyf"]
+[ext_resource type="Texture2D" uid="uid://bj8np5f2rtt7y" path="res://Sapato/Images/Game/Strums/note impact 1 green3.png" id="21_1tv7d"]
+[ext_resource type="Texture2D" uid="uid://cblo2l4d3ylr0" path="res://Sapato/Images/Game/Strums/note impact 1 green0.png" id="22_otvan"]
+[ext_resource type="Texture2D" uid="uid://b0r5mto5bnx7k" path="res://Sapato/Images/Game/Strums/note impact 1 green2.png" id="23_r7ir2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yxyuv"]
 animations = [{
@@ -42,6 +58,77 @@ animations = [{
 "loop": false,
 "name": &"up",
 "speed": 0.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5a3h1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_2st0m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_305pb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_2fmge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_2ddor")
+}],
+"loop": false,
+"name": &"down",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_0mpfi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_0n4ho")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_gni7q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_gqjax")
+}],
+"loop": false,
+"name": &"left",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_sxlbq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_g8b0x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_xx60t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_qaojd")
+}],
+"loop": false,
+"name": &"right",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_gwbyf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_1tv7d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_otvan")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_r7ir2")
+}],
+"loop": false,
+"name": &"up",
+"speed": 24.0
 }]
 
 [sub_resource type="AudioStreamMP3" id="AudioStreamMP3_0q5p7"]
@@ -84,8 +171,6 @@ position = Vector2(54.75, 62.75)
 scale = Vector2(0.75, 0.75)
 Player = true
 
-[node name="Notes" type="Node2D" parent="Control/STRUMBoyfriend/STRUMBoyfriend"]
-
 [node name="STRUMDad" type="Control" parent="Control"]
 layout_mode = 1
 anchors_preset = 0
@@ -98,18 +183,22 @@ offset_bottom = 161.0
 position = Vector2(54, 62.75)
 scale = Vector2(0.75, 0.75)
 
-[node name="Notes" type="Node2D" parent="Control/STRUMDad/STRUMDad"]
-
 [node name="NoteController" type="Node" parent="Control"]
 script = ExtResource("2_5otp0")
 
-[node name="Mask" parent="Control/NoteController" instance=ExtResource("5_pfu8t")]
+[node name="HoldDummy" parent="Control/NoteController" instance=ExtResource("5_pfu8t")]
 visible = false
 
 [node name="NoteDummy" type="AnimatedSprite2D" parent="Control/NoteController"]
 visible = false
 sprite_frames = SubResource("SpriteFrames_yxyuv")
 animation = &"down"
+
+[node name="NoteSplashDummy" type="AnimatedSprite2D" parent="Control/NoteController"]
+visible = false
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_5a3h1")
+animation = &"up"
 
 [node name="MusicControl" type="Node" parent="Control/NoteController" node_paths=PackedStringArray("Music", "Voices")]
 script = ExtResource("7_x55sk")

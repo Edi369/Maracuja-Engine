@@ -4,23 +4,24 @@
 [ext_resource type="FontFile" uid="uid://c3w6r8gvmqsds" path="res://Sapato/Fonts/vcr.ttf" id="3_ar128"]
 [ext_resource type="Script" path="res://Sapato/Scripts/UpdateInfoText.cs" id="4_e6y2u"]
 
-[sub_resource type="Gradient" id="Gradient_353yw"]
+[sub_resource type="Gradient" id="Gradient_lir5y"]
 colors = PackedColorArray(0.717647, 0.0235294, 1, 1, 0.717188, 0.023663, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_gy8ao"]
-gradient = SubResource("Gradient_353yw")
+gradient = SubResource("Gradient_lir5y")
 width = 282
 
-[sub_resource type="Gradient" id="Gradient_4cmpx"]
+[sub_resource type="Gradient" id="Gradient_5tp56"]
 colors = PackedColorArray(0, 0.529412, 1, 1, 0, 0.529412, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_0sl6j"]
-gradient = SubResource("Gradient_4cmpx")
+gradient = SubResource("Gradient_5tp56")
 width = 282
 
 [node name="HUD" type="CanvasLayer"]
 
 [node name="Health" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
@@ -33,6 +34,7 @@ offset_right = 331.0
 offset_bottom = -65.0
 grow_horizontal = 2
 grow_vertical = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="HealthBarBG" type="Sprite2D" parent="Health"]
 texture_filter = 1
@@ -51,8 +53,10 @@ value = 50.0
 fill_mode = 1
 texture_under = SubResource("GradientTexture1D_gy8ao")
 texture_progress = SubResource("GradientTexture1D_0sl6j")
+metadata/_edit_use_anchors_ = true
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
 texture_filter = 2
 anchors_preset = 7
 anchor_left = 0.5
@@ -78,3 +82,4 @@ scroll_active = false
 threaded = true
 text_direction = 3
 script = ExtResource("4_e6y2u")
+metadata/_edit_use_anchors_ = true

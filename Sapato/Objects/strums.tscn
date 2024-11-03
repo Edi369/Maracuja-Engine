@@ -37,6 +37,9 @@ animations = [{
 "texture": ExtResource("2_gnaeu")
 }, {
 "duration": 1.0,
+"texture": ExtResource("2_gnaeu")
+}, {
+"duration": 1.0,
 "texture": ExtResource("3_j3t24")
 }],
 "loop": false,
@@ -72,6 +75,9 @@ animations = [{
 [sub_resource type="SpriteFrames" id="SpriteFrames_nop02"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_a3wet")
+}, {
 "duration": 1.0,
 "texture": ExtResource("3_a3wet")
 }, {
@@ -115,6 +121,9 @@ animations = [{
 "texture": ExtResource("10_16mny")
 }, {
 "duration": 1.0,
+"texture": ExtResource("10_16mny")
+}, {
+"duration": 1.0,
 "texture": ExtResource("11_nk3hb")
 }],
 "loop": false,
@@ -150,6 +159,9 @@ animations = [{
 [sub_resource type="SpriteFrames" id="SpriteFrames_pu71h"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_b7sv5")
+}, {
 "duration": 1.0,
 "texture": ExtResource("15_b7sv5")
 }, {

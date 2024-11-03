@@ -76,7 +76,7 @@ animations = [{
 "speed": 0.0
 }]
 
-[node name="Mask" type="Node2D"]
+[node name="Hold" type="Node2D"]
 clip_children = 1
 
 [node name="Mask" type="ColorRect" parent="."]

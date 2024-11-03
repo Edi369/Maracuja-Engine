@@ -1,21 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://d08o8abuud81w"]
+[gd_scene load_steps=6 format=3 uid="uid://d08o8abuud81w"]
 
-[ext_resource type="Script" path="res://Sapato/Scripts/GlobalVariables.cs" id="1_tmloq"]
 [ext_resource type="Script" path="res://Sapato/Scripts/AudioController.cs" id="2_ncl8v"]
 [ext_resource type="Script" path="res://Sapato/Scripts/EngineController.cs" id="3_m7033"]
-[ext_resource type="Script" path="res://Sapato/Scripts/ConfigVariables.cs" id="4_ha7rq"]
+[ext_resource type="Script" path="res://Sapato/Scripts/GlobalSignals.cs" id="4_ufvx7"]
 [ext_resource type="PackedScene" uid="uid://cohm7pfjg6xt5" path="res://Sapato/Objects/masterhud.tscn" id="5_by1d8"]
 [ext_resource type="Script" path="res://Sapato/Scripts/DiscordRpc.cs" id="5_g4msg"]
 
 [node name="GlobalThings" type="Node2D"]
 process_mode = 3
-script = ExtResource("1_tmloq")
 
 [node name="AudioController" type="Node" parent="."]
 script = ExtResource("2_ncl8v")
-
-[node name="ConfigVariables" type="Node" parent="."]
-script = ExtResource("4_ha7rq")
 
 [node name="TransitionHandler" type="Node" parent="."]
 
@@ -24,5 +19,8 @@ script = ExtResource("3_m7033")
 
 [node name="DiscordRPC" type="Node" parent="."]
 script = ExtResource("5_g4msg")
+
+[node name="GlobalSignals" type="Node" parent="."]
+script = ExtResource("4_ufvx7")
 
 [node name="MASTERHUD" parent="." instance=ExtResource("5_by1d8")]
