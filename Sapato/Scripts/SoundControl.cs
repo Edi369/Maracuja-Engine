@@ -2,6 +2,8 @@
 
 using Godot;
 using System;
+using System.IO;
+using System.Linq;
 
 public partial class SoundControl : Node2D
 {
@@ -18,6 +20,22 @@ public partial class SoundControl : Node2D
 		Bar = GetNode<ProgressBar>("BarVolume");
 		BGVolume = GetNode<Sprite2D>("BGVolume");
 		Audio = GetNode<AudioStreamPlayer>("Volume");
+		LoadSFX($"res://Sapato/Sounds");
+	}
+
+	private void LoadSFX(string path)
+	{
+		string finalPath = ProjectSettings.GlobalizePath(path);
+		string[] files = Directory.GetFiles(finalPath).Where(f => f.EndsWith(".ogg")).ToArray();
+
+		foreach (string fileName in files)
+		{
+			if (fileName == $"{finalPath}\\volume.ogg")
+			{
+				AudioStreamOggVorbis audioData = AudioStreamOggVorbis.LoadFromFile(fileName);
+				Audio.Stream = audioData;
+			}
+		}
 	}
 
 	public override void _Process(double delta)

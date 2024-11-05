@@ -1,4 +1,4 @@
-[gd_scene load_steps=201 format=3 uid="uid://cebes6koicf61"]
+[gd_scene load_steps=212 format=3 uid="uid://cebes6koicf61"]
 
 [ext_resource type="Script" path="res://Sapato/Scripts/TestSong.cs" id="1_hxwdi"]
 [ext_resource type="PackedScene" uid="uid://bs721pk5bfiqp" path="res://Sapato/Objects/hud.tscn" id="2_urav3"]
@@ -16,15 +16,25 @@
 [ext_resource type="Shader" path="res://Sapato/Songs/Timeless Daydream/fish.gdshader" id="11_ferf3"]
 [ext_resource type="Texture2D" uid="uid://dk4qrwvu5fgea" path="res://Sapato/Images/Stage/Timilisdrim/osaker.png" id="11_x3a1q"]
 [ext_resource type="Texture2D" uid="uid://d4kqdgcif08pc" path="res://Sapato/Images/Game/Strums/note impact 1 blue2.png" id="12_cap35"]
+[ext_resource type="Texture2D" uid="uid://dxrtiari88nhm" path="res://Sapato/Images/Characters/osaka/down0.png" id="12_do282"]
+[ext_resource type="Texture2D" uid="uid://dqjewubnk1drv" path="res://Sapato/Images/Characters/osaka/down1.png" id="13_7x4nl"]
 [ext_resource type="Texture2D" uid="uid://dvx8yfh4seukp" path="res://Sapato/Images/Game/Strums/note impact 1 blue1.png" id="13_kaasv"]
 [ext_resource type="Texture2D" uid="uid://pgd8lko22nlf" path="res://Sapato/Images/Game/Strums/note impact 1 purple3.png" id="14_7frys"]
+[ext_resource type="Texture2D" uid="uid://0pnt1b8wtcb8" path="res://Sapato/Images/Characters/osaka/idle0.png" id="14_ltusi"]
 [ext_resource type="Texture2D" uid="uid://mrlg4u67n0gd" path="res://Sapato/Images/Game/Strums/note impact 1 purple1.png" id="15_5xd65"]
+[ext_resource type="Texture2D" uid="uid://gthdfxfq4c6r" path="res://Sapato/Images/Characters/osaka/idle1.png" id="15_bisbx"]
+[ext_resource type="Texture2D" uid="uid://bmsrkkrprk3ej" path="res://Sapato/Images/Characters/osaka/left0.png" id="16_fr2hb"]
 [ext_resource type="Texture2D" uid="uid://b4t865c2msl58" path="res://Sapato/Images/Game/Strums/note impact 1 purple0.png" id="16_i2432"]
+[ext_resource type="Texture2D" uid="uid://c7b8lhokroth1" path="res://Sapato/Images/Characters/osaka/left1.png" id="17_bumj8"]
 [ext_resource type="Texture2D" uid="uid://cpxblkhsrikmu" path="res://Sapato/Images/Game/Strums/note impact 1 purple2.png" id="17_e7ni6"]
+[ext_resource type="Texture2D" uid="uid://dwnixqe5uu3d0" path="res://Sapato/Images/Characters/osaka/right0.png" id="18_75upp"]
 [ext_resource type="Texture2D" uid="uid://dk5au4kcww0kc" path="res://Sapato/Images/Game/Strums/note impact 1 red3.png" id="18_sxo4w"]
+[ext_resource type="Texture2D" uid="uid://mimur4bvdaj" path="res://Sapato/Images/Characters/osaka/right1.png" id="19_fe3lu"]
 [ext_resource type="Texture2D" uid="uid://yar2103x0u1l" path="res://Sapato/Images/Game/Strums/note impact 1 red2.png" id="19_wjbs1"]
 [ext_resource type="Texture2D" uid="uid://d050kdas7mavk" path="res://Sapato/Images/Game/Strums/note impact 1 red0.png" id="20_4phe5"]
+[ext_resource type="Texture2D" uid="uid://d0kuytn4vy4da" path="res://Sapato/Images/Characters/osaka/up0.png" id="20_8d0kt"]
 [ext_resource type="Texture2D" uid="uid://c4nyc2lnpbc4p" path="res://Sapato/Images/Game/Strums/note impact 1 red1.png" id="21_1i0ew"]
+[ext_resource type="Texture2D" uid="uid://d4dnfjh278exh" path="res://Sapato/Images/Characters/osaka/up1.png" id="21_2relq"]
 [ext_resource type="Texture2D" uid="uid://dgfaca5uhnnfg" path="res://Sapato/Images/Game/Strums/note impact 1 green1.png" id="22_a1sxd"]
 [ext_resource type="Texture2D" uid="uid://bj8np5f2rtt7y" path="res://Sapato/Images/Game/Strums/note impact 1 green3.png" id="23_25qjw"]
 [ext_resource type="Texture2D" uid="uid://cblo2l4d3ylr0" path="res://Sapato/Images/Game/Strums/note impact 1 green0.png" id="24_13nky"]
@@ -1305,6 +1315,64 @@ animations = [{
 shader = ExtResource("11_ferf3")
 shader_parameter/effect_amount = -0.25
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_mx3e7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_do282")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_7x4nl")
+}],
+"loop": false,
+"name": &"down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_ltusi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_bisbx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_fr2hb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_bumj8")
+}],
+"loop": false,
+"name": &"left",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_75upp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_fe3lu")
+}],
+"loop": false,
+"name": &"right",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_8d0kt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_2relq")
+}],
+"loop": false,
+"name": &"up",
+"speed": 12.0
+}]
+
 [node name="Timeless Daydream" type="Node2D"]
 script = ExtResource("1_hxwdi")
 
@@ -1399,7 +1467,8 @@ sprite_frames = SubResource("SpriteFrames_4b1dn")
 animation = &"idle"
 
 [node name="Osaka" type="AnimatedSprite2D" parent="."]
-position = Vector2(635, 349)
-animation = &""
+position = Vector2(639, 355)
+sprite_frames = SubResource("SpriteFrames_mx3e7")
+animation = &"idle"
 autoplay = "idle"
 script = ExtResource("40_8baq8")

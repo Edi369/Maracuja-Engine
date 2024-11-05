@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4osd4frf3cw0"]
+
+[ext_resource type="PackedScene" uid="uid://b27kfw5jsstb1" path="res://Sapato/Objects/Game/AlphabeticCene.tscn" id="1_dpijs"]
+[ext_resource type="Script" path="res://Sapato/Scripts/PausedScene.cs" id="1_nd8ys"]
+
+[node name="PausedScene" type="CanvasLayer"]
+process_mode = 3
+layer = 3
+script = ExtResource("1_nd8ys")
+
+[node name="PausedControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="PausedControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.588235)
+
+[node name="Resume" type="Control" parent="PausedControl"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 88.0
+offset_top = -34.5
+offset_right = 384.0
+offset_bottom = 34.5
+grow_vertical = 2
+
+[node name="Resume" parent="PausedControl/Resume" instance=ExtResource("1_dpijs")]
+position = Vector2(22, 32)
+FnfText = "resume"
+
+[node name="Restart Song" parent="PausedControl/Resume" instance=ExtResource("1_dpijs")]
+position = Vector2(22, 176)
+FnfText = "restart song"
+
+[node name="text" parent="PausedControl" instance=ExtResource("1_dpijs")]
+position = Vector2(969, 32)
+scale = Vector2(0.31, 0.31)
+FnfText = "add info here later\\nlol"
+
+[node name="BGPausedMusic" type="AudioStreamPlayer" parent="."]
+
+[node name="ScrollSfx" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0

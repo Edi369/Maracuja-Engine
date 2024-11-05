@@ -1,27 +1,47 @@
-[gd_scene load_steps=57 format=3 uid="uid://b27kfw5jsstb1"]
+[gd_scene load_steps=77 format=3 uid="uid://b27kfw5jsstb1"]
 
 [ext_resource type="Script" path="res://Sapato/Scripts/Game/AlphabeticScript.cs" id="1_l3x6e"]
 [ext_resource type="Texture2D" uid="uid://dwilaq7aiicgm" path="res://Sapato/Images/Game/Alphabet/Bold/_ Bold0.png" id="2_0amks"]
 [ext_resource type="Texture2D" uid="uid://dpj8ry1k02lk2" path="res://Sapato/Images/Game/Alphabet/Bold/A bold1.png" id="2_5niag"]
+[ext_resource type="Texture2D" uid="uid://d1nsk581qytbo" path="res://Sapato/Images/Game/Alphabet/Bold/0 bold0.png" id="2_62075"]
+[ext_resource type="Texture2D" uid="uid://cxesa8vskq6l4" path="res://Sapato/Images/Game/Alphabet/Bold/0 bold1.png" id="3_d6erv"]
 [ext_resource type="Texture2D" uid="uid://665g4bpmh7x6" path="res://Sapato/Images/Game/Alphabet/Bold/_ Bold1.png" id="3_naokv"]
 [ext_resource type="Texture2D" uid="uid://dsdhuyn83pper" path="res://Sapato/Images/Game/Alphabet/Bold/A bold2.png" id="3_y88u6"]
+[ext_resource type="Texture2D" uid="uid://ewhhaq2f7fwr" path="res://Sapato/Images/Game/Alphabet/Bold/1 bold0.png" id="4_hyl80"]
 [ext_resource type="Texture2D" uid="uid://can33xfwbwsiw" path="res://Sapato/Images/Game/Alphabet/Bold/B bold1.png" id="4_wqfga"]
+[ext_resource type="Texture2D" uid="uid://rhb8mrotk5o4" path="res://Sapato/Images/Game/Alphabet/Bold/1 bold1.png" id="5_pgt04"]
 [ext_resource type="Texture2D" uid="uid://0wy3ewjk1xkl" path="res://Sapato/Images/Game/Alphabet/Bold/B bold2.png" id="5_srtp1"]
+[ext_resource type="Texture2D" uid="uid://wbusw6yccb1j" path="res://Sapato/Images/Game/Alphabet/Bold/2 bold0.png" id="6_nkywc"]
 [ext_resource type="Texture2D" uid="uid://fq5gxumjkej2" path="res://Sapato/Images/Game/Alphabet/Bold/C bold0.png" id="6_qax2o"]
+[ext_resource type="Texture2D" uid="uid://b4t56b8w1xgfp" path="res://Sapato/Images/Game/Alphabet/Bold/2 bold3.png" id="7_aag4n"]
 [ext_resource type="Texture2D" uid="uid://i0vcv56bmb54" path="res://Sapato/Images/Game/Alphabet/Bold/C bold3.png" id="7_fcqt6"]
+[ext_resource type="Texture2D" uid="uid://cq2y7qivuh2ws" path="res://Sapato/Images/Game/Alphabet/Bold/3 bold0.png" id="8_p7x2x"]
 [ext_resource type="Texture2D" uid="uid://cph5vuyd6o7bi" path="res://Sapato/Images/Game/Alphabet/Bold/D bold0.png" id="8_y76kk"]
 [ext_resource type="Texture2D" uid="uid://b64ilxs2tsnoy" path="res://Sapato/Images/Game/Alphabet/Bold/D bold3.png" id="9_eqs5w"]
+[ext_resource type="Texture2D" uid="uid://cyvplrn085vmy" path="res://Sapato/Images/Game/Alphabet/Bold/3 bold3.png" id="9_odoo4"]
+[ext_resource type="Texture2D" uid="uid://b25pq0ia26bfs" path="res://Sapato/Images/Game/Alphabet/Bold/4 bold0.png" id="10_q8526"]
 [ext_resource type="Texture2D" uid="uid://d0rrclv88i7xu" path="res://Sapato/Images/Game/Alphabet/Bold/E bold2.png" id="10_ugrni"]
+[ext_resource type="Texture2D" uid="uid://1x2s0f8fe0rx" path="res://Sapato/Images/Game/Alphabet/Bold/4 bold3.png" id="11_40hr3"]
 [ext_resource type="Texture2D" uid="uid://cls4t6wnl38mr" path="res://Sapato/Images/Game/Alphabet/Bold/E bold3.png" id="11_nan24"]
 [ext_resource type="Texture2D" uid="uid://b4nuae4cu41m6" path="res://Sapato/Images/Game/Alphabet/Bold/F bold0.png" id="12_by403"]
+[ext_resource type="Texture2D" uid="uid://by3fqp46kvpr0" path="res://Sapato/Images/Game/Alphabet/Bold/5 bold0.png" id="12_gdktr"]
 [ext_resource type="Texture2D" uid="uid://6lf00nph56sn" path="res://Sapato/Images/Game/Alphabet/Bold/F bold1.png" id="13_1xart"]
+[ext_resource type="Texture2D" uid="uid://dcxbndmabqd5l" path="res://Sapato/Images/Game/Alphabet/Bold/5 bold3.png" id="13_2bp6s"]
+[ext_resource type="Texture2D" uid="uid://cqlr121kpqmj7" path="res://Sapato/Images/Game/Alphabet/Bold/6 bold0.png" id="14_bopbc"]
 [ext_resource type="Texture2D" uid="uid://doin03q6msclw" path="res://Sapato/Images/Game/Alphabet/Bold/G bold0.png" id="14_l2kwr"]
+[ext_resource type="Texture2D" uid="uid://b4r3vywmmcvsy" path="res://Sapato/Images/Game/Alphabet/Bold/6 bold1.png" id="15_0uq4y"]
 [ext_resource type="Texture2D" uid="uid://d21gxo78jccyn" path="res://Sapato/Images/Game/Alphabet/Bold/G bold3.png" id="15_7j0ah"]
+[ext_resource type="Texture2D" uid="uid://dl1cosdcf8lik" path="res://Sapato/Images/Game/Alphabet/Bold/7 bold0.png" id="16_2kxfe"]
 [ext_resource type="Texture2D" uid="uid://pm4sic217yap" path="res://Sapato/Images/Game/Alphabet/Bold/H bold0.png" id="16_et75q"]
 [ext_resource type="Texture2D" uid="uid://cjjgq851p6r65" path="res://Sapato/Images/Game/Alphabet/Bold/H bold3.png" id="17_8jjwg"]
+[ext_resource type="Texture2D" uid="uid://cpsnn5bpegaf7" path="res://Sapato/Images/Game/Alphabet/Bold/7 bold1.png" id="17_olk8t"]
 [ext_resource type="Texture2D" uid="uid://bqyxlo7qul5e2" path="res://Sapato/Images/Game/Alphabet/Bold/I bold0.png" id="18_03dn8"]
+[ext_resource type="Texture2D" uid="uid://do0bo2ty21ufe" path="res://Sapato/Images/Game/Alphabet/Bold/8 bold0.png" id="18_yvs81"]
+[ext_resource type="Texture2D" uid="uid://dpa0ppfjmoiov" path="res://Sapato/Images/Game/Alphabet/Bold/8 bold3.png" id="19_wbu78"]
 [ext_resource type="Texture2D" uid="uid://cvl8s17a0f27q" path="res://Sapato/Images/Game/Alphabet/Bold/I bold3.png" id="19_wv5j7"]
+[ext_resource type="Texture2D" uid="uid://djdyd2mtn7q41" path="res://Sapato/Images/Game/Alphabet/Bold/9 bold0.png" id="20_nipby"]
 [ext_resource type="Texture2D" uid="uid://bqxaf3wtx6l65" path="res://Sapato/Images/Game/Alphabet/Bold/J bold0.png" id="20_wh7ds"]
+[ext_resource type="Texture2D" uid="uid://c0h8t7wl6hkk3" path="res://Sapato/Images/Game/Alphabet/Bold/9 bold1.png" id="21_2utvf"]
 [ext_resource type="Texture2D" uid="uid://b3y4atwmv25ip" path="res://Sapato/Images/Game/Alphabet/Bold/J bold3.png" id="21_re60n"]
 [ext_resource type="Texture2D" uid="uid://c6g642jyp5w0c" path="res://Sapato/Images/Game/Alphabet/Bold/K bold0.png" id="22_oxvaa"]
 [ext_resource type="Texture2D" uid="uid://cjyldclnc7nv2" path="res://Sapato/Images/Game/Alphabet/Bold/K bold3.png" id="23_3h0gt"]
@@ -60,7 +80,127 @@
 animations = [{
 "frames": [],
 "loop": true,
+"name": &"-",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
 "name": &".",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_62075")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_d6erv")
+}],
+"loop": true,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_hyl80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pgt04")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_nkywc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_aag4n")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_p7x2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_odoo4")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_q8526")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_40hr3")
+}],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_gdktr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_2bp6s")
+}],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_bopbc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_0uq4y")
+}],
+"loop": true,
+"name": &"6",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_2kxfe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_olk8t")
+}],
+"loop": true,
+"name": &"7",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("18_yvs81")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_wbu78")
+}],
+"loop": true,
+"name": &"8",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_nipby")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_2utvf")
+}],
+"loop": true,
+"name": &"9",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &":",
 "speed": 5.0
 }, {
 "frames": [{
@@ -366,4 +506,4 @@ script = ExtResource("1_l3x6e")
 
 [node name="DummyLetter" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_rqkg6")
-animation = &"."
+animation = &"-"

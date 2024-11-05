@@ -190,6 +190,16 @@ public partial class NoteController : Node
 
 			if (note.Value.TimeNote - MusicControl.Music.GetPlaybackPosition() < -.15f)
 			{
+				NoteHitEventArgs eventArgs = new NoteHitEventArgs()
+				{
+					Note = oldNote,
+					Rating = "sick",
+					Score = 300,
+					Delay = (note.Value.TimeNote - MusicControl.Music.GetPlaybackPosition())*100,
+					IsSusteinNote = oldNote.LongNoteLenght != null ? true : false,
+				};
+
+				GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.NoteMiss, eventArgs);
 				MusicControl.Voices.VolumeDb = -255;
 				ActualNote.Remove(note.Key);
 				note.Value.Note.QueueFree();
@@ -279,7 +289,7 @@ public partial class NoteController : Node
 			Rating = "sick",
 			Score = 300,
 			Delay = pressedTime*100,
-			IsSusteinNote = false,
+			IsSusteinNote = note.LongNoteLenght != null ? true : false,
 		};
 
 		if (Mathf.Abs(pressedTime) <= 0.05)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="Osaka.png" width="2873" height="1602">
+	<SubTexture name="down0000" x="360" y="850" width="356" height="700" frameX="-865" frameY="-780" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="down0001" x="1796" y="703" width="357" height="698" frameX="-866" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="idle0000" x="719" y="850" width="356" height="700" frameX="-865" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="idle0001" x="2096" y="0" width="357" height="698" frameX="-866" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="left0000" x="1078" y="850" width="356" height="700" frameX="-865" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="left0001" x="2156" y="701" width="357" height="698" frameX="-866" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="miss0000" x="1437" y="850" width="356" height="700" frameX="-865" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="miss0001" x="0" y="850" width="357" height="752" frameX="-866" frameY="-728" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="right0000" x="1737" y="0" width="356" height="700" frameX="-865" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="right0001" x="2456" y="0" width="357" height="698" frameX="-866" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="up0000" x="0" y="0" width="1734" height="847" frameX="-176" frameY="-635" frameWidth="2086" frameHeight="2086"/>
+	<SubTexture name="up0001" x="2516" y="701" width="357" height="698" frameX="-866" frameY="-782" frameWidth="2086" frameHeight="2086"/>
+</TextureAtlas>

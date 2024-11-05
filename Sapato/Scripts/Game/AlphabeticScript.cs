@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 
 [Tool]
+[GlobalClass]
 public partial class AlphabeticScript : Node2D
 {
 	[Export]

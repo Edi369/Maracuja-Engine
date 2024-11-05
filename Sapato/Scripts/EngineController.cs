@@ -19,6 +19,7 @@ public partial class EngineController : Node
 		ResetLostFocus();
 
         Engine.MaxFps = ConfigVariables.FpsMax;
+		GlobalVariables.Engine = this;
     }
 
     public override void _Notification(int what)
@@ -60,6 +61,20 @@ public partial class EngineController : Node
 		zzzLost = lostFocusIntance.GetNode<AnimatedSprite2D>("ZZZ");
 		TextLost = lostFocusIntance.GetNode<Label>("Text");
 		BGLost = lostFocusIntance.GetNode<Sprite2D>("BG");
+	}
+
+	public void ChangeResolutionGame(int X, int Y)
+	{
+		DisplayServer.WindowSetSize(new Vector2I(X, Y));
+        GetTree().Root.ContentScaleSize = new Vector2I(X, Y);
+        DisplayServer.WindowSetPosition
+        (
+            new Vector2I
+            (
+                (DisplayServer.ScreenGetSize().X/2) - (DisplayServer.WindowGetSize().X / 2),
+                (DisplayServer.ScreenGetSize().Y/2) - (DisplayServer.WindowGetSize().Y / 2)
+            )
+        );
 	}
 
     public override void _Process(double delta)

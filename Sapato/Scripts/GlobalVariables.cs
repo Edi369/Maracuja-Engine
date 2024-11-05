@@ -70,9 +70,15 @@ public class GlobalVariables
 	public static double CameraGAMEBaseZoom { get; set; } = 1;
 	public static double HUDBaseZoom { get; set; } = 1;
 	public static double ScrollSpeed { get; set; } = 1;
-	public static int BPM { get; set; } = 1;
+	public static int BPM { get; set; } = 100;
+
+	public static bool InChartMode = false;
+	public static bool CanDie = true;
+
+	public static string CurGlobalCharacter = "Default";
 
 	public static CanvasLayer HUD { get; set; }
 	public static Camera2D CamGame { get; set; }
 	public static GlobalSignals Signals { get; set; }
+	public static EngineController Engine { get; set; }
 }

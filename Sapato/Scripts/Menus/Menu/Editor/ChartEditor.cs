@@ -32,6 +32,7 @@ public partial class ChartEditor : Node2D
 	private bool Ocupped = false;
 	private float[] Hitsounds = new float[]{ 50f, 50f };
 	public static float MusicPosition = 1f;
+	public string CustomHitSound = "Osu";
 
 	public static AudioStreamPlayer Music;
 	public static AudioStreamPlayer Voices;
@@ -61,12 +62,14 @@ public partial class ChartEditor : Node2D
 		Voices = GetNode<ChartMusicControl>("MusicControl").Voices;
 
 		DisplayServer.WindowSetTitle("FNF - Maracuja Engine (Chart Editor)");
+		GlobalVariables.Engine.ChangeResolutionGame(1280, 720);
 
 		ListNotes.Clear();
 		Events();
 		LoadMetaFromPath($"res://Sapato/Songs/{SongName}/Meta.json");
 		LoadMusic();
 		LoadChartFromPath($"res://Sapato/Songs/{SongName}/Chart/{Difficulty}.json");
+		LoadSFX($"res://Sapato/Sounds");
 
 		ScrollChange = 30f/GetNode<ChartMusicControl>("MusicControl").BPM;
 
@@ -128,6 +131,26 @@ public partial class ChartEditor : Node2D
 		}
 	}
 
+	private void LoadSFX(string path)
+	{
+		string finalPath = ProjectSettings.GlobalizePath(path);
+		string[] files = Directory.GetFiles(finalPath).Where(f => f.EndsWith(".ogg")).ToArray();
+
+		foreach (string fileName in files)
+		{
+			if (fileName == $"{finalPath}\\{CustomHitSound}.ogg")
+			{
+				AudioStreamOggVorbis audioData = AudioStreamOggVorbis.LoadFromFile(fileName);
+				GetNode<AudioStreamPlayer>("MusicControl/Hitsound").Stream = audioData;
+			}
+			else if (fileName == $"{finalPath}\\BpmBarSound.ogg")
+			{
+				AudioStreamOggVorbis audioData = AudioStreamOggVorbis.LoadFromFile(fileName);
+				GetNode<AudioStreamPlayer>("MusicControl/BpmBarSound").Stream = audioData;
+			}
+		}
+	}
+
 	public override void _PhysicsProcess (double delta)
 	{
 		if (!IsTesting && !Ocupped)
@@ -165,6 +188,13 @@ public partial class ChartEditor : Node2D
 		GetNode<Camera2D>("Camera").Zoom = new Vector2(Mathf.Lerp(GetNode<Camera2D>("Camera").Zoom.X, CAMERAZoom, 10f/(float)(1/delta)), Mathf.Lerp(GetNode<Camera2D>("Camera").Zoom.Y, CAMERAZoom, 10f/(float)(1/delta)));
 	
 		GetNode<TextureRect>("HUDinGame/UPLabel/Metronome/TabContainer/Metronome/MetronomeBall").Modulate = new Color(1, 1, 1, Mathf.Lerp(GetNode<TextureRect>("HUDinGame/UPLabel/Metronome/TabContainer/Metronome/MetronomeBall").Modulate.A, 0f, 10f/(float)(1/delta)));
+	
+		if (Input.IsActionJustPressed("ui_accept"))
+		{
+			GlobalVariables.InChartMode = true;
+			FunkinControlChart.notesList = ListNotes.ToArray();
+			GetTree().ChangeSceneToFile($"res://Sapato/Songs/{SongName}/Scene.tscn");
+		}
 	}
 
 	private void Events()
@@ -971,7 +1001,14 @@ public partial class ChartEditor : Node2D
 				GetNode<Node2D>("Notes").RemoveChild(node);
 			}
 
-			ListNotes = chartinfo.notes.ToList();
+			if (!GlobalVariables.InChartMode)
+			{
+				ListNotes = chartinfo.notes.ToList();
+			}	
+			else
+			{
+				ListNotes = FunkinControlChart.notesList.ToList();
+			}
 
 			int _notesIndex = 0;
 			foreach (NoteInfo noteinfo in ListNotes)

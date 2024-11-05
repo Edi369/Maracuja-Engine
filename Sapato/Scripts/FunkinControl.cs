@@ -4,16 +4,29 @@ using System;
 using System.IO;
 using FileAccess = Godot.FileAccess;
 
+public class FunkinControlChart
+{
+	public static NoteInfo[] notesList = new NoteInfo[]{};
+	public static float musiPos = 0;
+}
+
 public partial class FunkinControl : Node
 {
 	public NoteInfo[] notesList = new NoteInfo[]{};
+	[Export] public PackedScene pauseScene;
 
 	public override void _Ready()
 	{
 		LoadMetaFromPath($"res://Sapato/Songs/{GlobalVariables.CurrentSong}/Meta.json");
 		LoadMusic();
-		LoadChartFromPath($"res://Sapato/Songs/{GlobalVariables.CurrentSong}/Chart/{GlobalVariables.CurrentDifficult}.json");
-
+		if (!GlobalVariables.InChartMode)
+		{
+			LoadChartFromPath($"res://Sapato/Songs/{GlobalVariables.CurrentSong}/Chart/{GlobalVariables.CurrentDifficult}.json");
+		}
+		else
+		{
+			notesList = FunkinControlChart.notesList;
+		}
 		GetNode<AudioStreamPlayer>("../NoteController/MusicControl/Voices").Play();
 		GetNode<AudioStreamPlayer>("../NoteController/MusicControl/Inst").Play();
 
@@ -23,9 +36,11 @@ public partial class FunkinControl : Node
 		GlobalVariables.HUD = GetNode<CanvasLayer>("../../../HUD");
 		GlobalVariables.CamGame = GetNode<Camera2D>("../../../CamGame");
 
-		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicBeat += (o) => {GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicBeat, o);};
-		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicStep += (o) => {GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicStep, o);};
-		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicBar += (o) => {GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicSection, o);};
+		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicBeat += (o) => GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicBeat, o);
+		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicStep += (o) => GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicStep, o);
+		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicBar += (o) => GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicSection, o);
+
+		GetNode<AudioStreamPlayer>("../NoteController/MusicControl/Inst").Finished += () => GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnMusicEnd);
 
 		GetNode<ChartMusicControl>("../NoteController/MusicControl").MusicBeat += (o) =>
 		{
@@ -122,5 +137,13 @@ public partial class FunkinControl : Node
 		GlobalVariables.HUD.Scale = new Vector2(Mathf.Lerp(GlobalVariables.HUD.Scale.X, (float)GlobalVariables.HUDBaseZoom, 5f/(float)(1/delta)), Mathf.Lerp(GlobalVariables.HUD.Scale.Y, (float)GlobalVariables.HUDBaseZoom, 5f/(float)(1/delta)));
 		GlobalVariables.CamGame.Zoom = new Vector2(Mathf.Lerp(GlobalVariables.CamGame.Zoom.X, (float)GlobalVariables.CameraGAMEBaseZoom, 5f/(float)(1/delta)), Mathf.Lerp(GlobalVariables.CamGame.Zoom.Y, (float)GlobalVariables.CameraGAMEBaseZoom, 5f/(float)(1/delta)));
 		GetNode<NoteController>("../NoteController").ScrollSpeed = GlobalVariables.ScrollSpeed;
+
+		if (Input.IsActionJustPressed("ui_accept"))
+		{
+			PausedScene pausedSigleton = pauseScene.Instantiate<PausedScene>();
+			AddChild(pausedSigleton);
+			GlobalVariables.Signals.EmitSignal(GlobalSignals.SignalName.OnPausedSong, pausedSigleton);
+			GetTree().Paused = true;
+		}
 	}
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Character name="Osaka" path="res://Sapato/Images/Characters/Osaka" iconame="Osaka" color="#FCFF4F">
+	<Anim xpos="0" ypos="0" xlmname="idle" identname="idle" fps="5" loop="true"/>
+	<Anim xpos="0" ypos="0" xlmname="up" identname="up" fps="12" loop="false"/>
+	<Anim xpos="0" ypos="0" xlmname="down" identname="down" fps="12" loop="false"/>
+	<Anim xpos="0" ypos="0" xlmname="right" identname="right" fps="12" loop="false"/>
+	<Anim xpos="0" ypos="0" xlmname="left" identname="left" fps="12" loop="false"/>
+	<Anim xpos="0" ypos="0" xlmname="miss" identname="up-miss" fps="12" loop="true"/>
+	<Anim xpos="0" ypos="0" xlmname="miss" identname="down-miss" fps="12" loop="true"/>
+	<Anim xpos="0" ypos="0" xlmname="miss" identname="left-miss" fps="12" loop="true"/>
+	<Anim xpos="0" ypos="0" xlmname="miss" identname="right-miss" fps="12" loop="true"/>
+</Character>

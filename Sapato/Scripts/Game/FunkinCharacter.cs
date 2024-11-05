@@ -1,33 +1,79 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
+[GlobalClass]
 public partial class FunkinCharacter : AnimatedSprite2D
 {
 	public string AltAnimPrefix = "";
+	[Export] public string Strum = "";
 	public bool IsInAnimation = false;
 	public double TimeOffset = 0;
+	public Character characterinfo;
+	public Dictionary<string, string> GeneralAnimations = new Dictionary<string, string>();
 
 	public override void _Ready()
 	{
-		GlobalVariables.Signals.NoteHit += (o) =>
+		GlobalVariables.Signals.NoteHit += PlayAnimOnNote;
+		GlobalVariables.Signals.NoteMiss += PlayAnimOnMiss;
+		GlobalVariables.Signals.OnMusicBeat += PlayAnimIdle;
+
+		LoadDataCharacter();
+
+		if(Strum == "")
 		{
-			if(o.Note.StrumLine != this.Name)
-			{
-				return;
-			}
+			Strum = Name;
+		}
+	}
 
-			PlayAnimation(GetAnimationIndex(o.Note.Direction));
-		};
+	public void LoadDataCharacter()
+	{
+		string finalPath = ProjectSettings.GlobalizePath($"{FilesController.Characters.Path}/{Name}.xml");
 
-		GlobalVariables.Signals.OnMusicBeat += (o) =>
+		var xmlSerializer = new XmlSerializer(typeof(Character));
+		using var fileXml = new FileStream(finalPath, FileMode.Open);
+		characterinfo = (Character)xmlSerializer.Deserialize(fileXml);
+
+		SpriteFrames = XmlAtlasImporter.LoadFromXml($"{characterinfo.Path}.png", $"{characterinfo.Path}.xml");
+
+		foreach(Anim anim in characterinfo.Anims)
 		{
-			if (o % 2 != 0 || IsInAnimation)
-			{
-				return;
-			}
+			GeneralAnimations.Add(anim.IdentName, anim.XlmName);
+			SpriteFrames.SetAnimationLoop(anim.XlmName, anim.Loop);
+			SpriteFrames.SetAnimationSpeed(anim.XlmName, anim.Fps);
+		}	
+	}
 
-			PlayAnimation("idle", true, false);
-		};
+	public void PlayAnimIdle(int o)
+	{
+		if (o % 2 != 0 || IsInAnimation)
+		{
+			return;
+		}
+
+		PlayAnimation("idle", true, false);
+	}
+
+	public void PlayAnimOnNote(NoteHitEventArgs o)
+	{
+		if(o.Note.StrumLine != Strum)
+		{
+			return;
+		}
+
+		PlayAnimation(GetAnimationIndex(o.Note.Direction));
+	}
+
+		public void PlayAnimOnMiss(NoteHitEventArgs o)
+	{
+		if(o.Note.StrumLine != Strum)
+		{
+			return;
+		}
+
+		PlayAnimation($"{GetAnimationIndex(o.Note.Direction)}-miss");
 	}
 
 	public string GetAnimationIndex(int index)
@@ -45,7 +91,7 @@ public partial class FunkinCharacter : AnimatedSprite2D
 		}
 	}
 
-	public void PlayAnimation(string animation, bool usePrefix = false, bool resetTime = true)
+	public void PlayAnimation(string animation, bool usePrefix = true, bool resetTime = true)
 	{
 		if (resetTime)
 		{
@@ -55,11 +101,25 @@ public partial class FunkinCharacter : AnimatedSprite2D
 
 		if (!usePrefix)
 		{
-			this.Play(animation);
+			if (GeneralAnimations.ContainsKey(animation))
+			{
+				Play(GeneralAnimations[animation]);
+			}
+			else
+			{
+				GD.PrintErr($"Animation dont found! {animation}");
+			}
 			return;
 		}
 
-		this.Play(animation + AltAnimPrefix);
+		if (GeneralAnimations.ContainsKey(animation))
+		{
+			Play(GeneralAnimations[animation] + AltAnimPrefix);
+		}
+		else
+		{
+			GD.PrintErr($"Animation dont found! {animation}");
+		}
 	}
 
 	public override void _Process(double delta)
@@ -70,5 +130,11 @@ public partial class FunkinCharacter : AnimatedSprite2D
 		{
 			IsInAnimation = false;
 		}
+	}
+
+	public override void _ExitTree()
+	{
+		GlobalVariables.Signals.NoteHit -= PlayAnimOnNote;
+		GlobalVariables.Signals.OnMusicBeat -= PlayAnimIdle;
 	}
 }
